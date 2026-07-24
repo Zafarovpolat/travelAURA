@@ -21,8 +21,9 @@ export function CarouselInit() {
       if (items.length === 0) return;
 
       let i = 0;
+      const fade = track.hasAttribute("data-fade");
       const paint = () => {
-        items.forEach((it, ii) => (it.style.opacity = ii === i ? "1" : "0.8"));
+        if (fade) items.forEach((it, ii) => (it.style.opacity = ii === i ? "1" : "0.6"));
         dots.forEach((d, di) => {
           d.style.width = di === i ? "24px" : "8px";
           d.style.background = di === i ? "#1a1a17" : "rgba(26,26,23,0.3)";

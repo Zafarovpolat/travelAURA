@@ -19,7 +19,11 @@ export function TopSeason() {
   return (
     <section
       id="season"
-      className="relative overflow-hidden bg-peach pb-56 pt-24"
+      className="relative overflow-hidden pb-56 pt-24"
+      style={{
+        background:
+          "linear-gradient(to bottom, #ffdfcd 0%, #ffdfcd 66%, #ffffff 92%)",
+      }}
     >
       <div className="container-page relative z-10">
         <Reveal className="text-center">
@@ -64,8 +68,8 @@ export function TopSeason() {
         </Reveal>
       </div>
 
-      {/* three clouds stuck to the bottom */}
-      <CloudStrip />
+      {/* three clouds stuck to the bottom (dropped lower) */}
+      <CloudStrip edge={-90} />
     </section>
   );
 }

@@ -35,7 +35,7 @@ export function SiteNav() {
           </div>
 
           <a href="#top" aria-label="travelAURA" className="shrink-0">
-            <img src={LOGO} alt="travelAURA" className="h-9 w-auto" />
+            <img src={LOGO} alt="travelAURA" className="h-12 w-auto" />
           </a>
 
           <div className="hidden items-center gap-9 md:flex">

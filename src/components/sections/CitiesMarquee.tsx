@@ -15,7 +15,7 @@ function Row() {
           <img
             src={it.flag}
             alt=""
-            className="h-[86px] w-auto shrink-0"
+            className="h-[120px] w-auto shrink-0"
             draggable={false}
           />
         </div>

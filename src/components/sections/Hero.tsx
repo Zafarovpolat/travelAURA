@@ -15,7 +15,7 @@ export function Hero() {
       raf = requestAnimationFrame(() => {
         const y = window.scrollY > 0 ? window.scrollY : 0;
         const el = imgRef.current;
-        if (el) el.style.transform = `translate3d(0, ${y * 0.28}px, 0) scale(1.1)`;
+        if (el) el.style.transform = `translate3d(0, ${y * 0.28}px, 0)`;
       });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -34,9 +34,11 @@ export function Hero() {
         src={HERO_SCENE}
         alt="Путешественница на земном шаре среди облаков"
         className="block w-full origin-top select-none will-change-transform"
-        style={{ transform: "scale(1.1)" }}
         draggable={false}
       />
+
+      {/* subtle dark overlay */}
+      <div className="pointer-events-none absolute inset-0 z-[3] bg-black/15" />
 
       {/* Title — vertically centered in the viewport */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex h-[88svh] items-center justify-center px-5">
@@ -45,9 +47,9 @@ export function Hero() {
         </h1>
       </div>
 
-      {/* Fade to white + three clouds stuck to the bottom */}
+      {/* fade to white + clouds dropped low (absolute — no height impact) */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[4] h-[22%] bg-gradient-to-b from-transparent to-white" />
-      <CloudStrip />
+      <CloudStrip edge={-140} />
     </section>
   );
 }

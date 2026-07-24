@@ -54,10 +54,10 @@ function GuideCard({ img, title, desc, soon }: Guide) {
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-[17px] font-semibold leading-tight text-ink">
+        <h3 className="font-display text-[20px] font-semibold leading-tight text-ink">
           {title}
         </h3>
-        <p className="mt-2 line-clamp-3 min-h-[3.4em] font-stack text-[13px] leading-[1.35] text-gray">
+        <p className="mt-2 line-clamp-3 min-h-[3.6em] font-stack text-[15px] leading-[1.35] text-gray">
           {desc}
         </p>
         <div className="mt-auto flex items-center justify-between pt-5">
@@ -79,17 +79,17 @@ export function Tours() {
     <section id="products" className="bg-white py-24">
       <div className="container-page">
         <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <h2 className="t-h2 max-w-[560px]">
+          <h2 className="t-h2 max-w-[620px]">
             База <span className="t-h2-i">Знаний</span> для Путешественников
           </h2>
-          <p className="t-body max-w-[460px] text-gray md:text-right">
+          <p className="t-body max-w-[380px] text-gray md:text-right">
             поможет вам сэкономить десятки, а то и сотни тысяч рублей и кучу
             времени в путешествиях
           </p>
         </Reveal>
       </div>
 
-      {/* Slider — exactly 3 visible, 4th hidden */}
+      {/* Slider — exactly 3 visible, 4th hidden (no opacity fade here) */}
       <Reveal delay={80} className="mx-auto mt-12 max-w-[1200px] px-10">
         <div data-slider="tours" className="cursor-grab overflow-hidden active:cursor-grabbing">
           <div className="flex items-stretch gap-6">

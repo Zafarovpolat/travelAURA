@@ -119,18 +119,18 @@ html.lenis body {
 }
 .t-h2 {
   font-family: var(--font-display);
-  font-size: 50px;
+  font-size: 60px;
   font-weight: 600;
-  line-height: 1.2em;
-  letter-spacing: -1.2px;
+  line-height: 1.15em;
+  letter-spacing: -1.6px;
 }
 .t-h2-i {
   font-family: var(--font-serif);
-  font-size: 50px;
+  font-size: 60px;
   font-weight: 600;
   font-style: italic;
   line-height: 1.2em;
-  letter-spacing: -1.2px;
+  letter-spacing: -1.6px;
 }
 .t-h3 {
   font-family: var(--font-display);
@@ -268,7 +268,8 @@ html.lenis body {
 /* Pagination dots — hover affordance */
 .dot {
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.45s ease, transform 0.2s ease, opacity 0.2s ease;
 }
 .dot:hover {
   transform: scale(1.3);

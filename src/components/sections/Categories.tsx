@@ -12,14 +12,16 @@ const PHOTOS = [
 
 function PhotoCard({ src }: { src: string }) {
   return (
-    <div className="group relative aspect-[3/4] w-[calc((100%-3rem)/3)] shrink-0 overflow-hidden rounded-[50%] transition-opacity duration-500">
+    <div className="group relative aspect-[3/5] w-[calc((100%-3rem)/3)] shrink-0 overflow-hidden rounded-[50%] transition-opacity duration-500">
       <img
         src={src}
         alt="Соло-путешествие"
-        className="h-full w-full object-cover transition duration-500 group-hover:scale-105 group-hover:blur-[2px]"
+        className="h-full w-full object-cover transition duration-500 group-hover:scale-105 group-hover:blur-[3px]"
         draggable={false}
       />
-      <span className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+      {/* whitish light on hover */}
+      <span className="pointer-events-none absolute inset-0 bg-white/25 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <span className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-500 group-hover:opacity-100">
         <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_8px_24px_rgba(0,0,0,0.18)]">
           <img src={ARROW} alt="" className="h-5 w-5" />
         </span>
@@ -32,7 +34,7 @@ export function Categories() {
   return (
     <section id="about" className="relative bg-white pb-24 pt-28">
       <div className="container-page">
-        <Reveal className="mx-auto max-w-[900px] text-center">
+        <Reveal className="mx-auto max-w-[960px] text-center">
           <h2 className="t-h2">
             4 года <span className="t-h2-i">Соло-Путешествий</span>
             <br />
@@ -45,10 +47,14 @@ export function Categories() {
         </Reveal>
       </div>
 
-      {/* Slider — exactly 3 visible, drag / autoplay / pagination */}
+      {/* Slider — exactly 3 visible; inactive slides fade (data-fade) */}
       <Reveal className="mx-auto mt-14 max-w-[1200px] px-10">
-        <div data-slider="cats" className="cursor-grab overflow-hidden active:cursor-grabbing">
-          <div className="flex gap-6">
+        <div
+          data-slider="cats"
+          data-fade=""
+          className="cursor-grab overflow-hidden active:cursor-grabbing"
+        >
+          <div className="flex items-start gap-6">
             {PHOTOS.map((src) => (
               <PhotoCard key={src} src={src} />
             ))}

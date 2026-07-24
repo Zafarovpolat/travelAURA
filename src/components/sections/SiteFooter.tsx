@@ -102,9 +102,11 @@ export function SiteFooter() {
         draggable={false}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/55" />
+      {/* soft white wash over the top ~20% */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-[22%] bg-gradient-to-b from-white/75 to-transparent" />
 
-      {/* three clouds stuck to the top (flipped 180°) */}
-      <CloudStrip flip />
+      {/* three clouds stuck to the top (flipped 180°), raised + tighter */}
+      <CloudStrip flip edge={-50} tight />
 
       <div className="relative z-10 flex flex-1 flex-col">
         {/* CTA headline — centered in the block */}

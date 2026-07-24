@@ -2,16 +2,69 @@
 import { Reveal } from "./Reveal";
 import { CloudStrip } from "./Clouds";
 
-const CARD_IMG = "/images/KCzaP2wFXirf4rM05DaNs7YhEg.png";
 const ARROW_UP_RIGHT = "/images/BbyPZY09N03enLhkU6HDikyBz0I.svg";
 const ARROW_LEFT = "/images/EuCRBEy3WmP3TOPcFR80q5d18NM.svg";
 const ARROW_RIGHT = "/images/ujDHATQhQaeDKRnUwXqlIRn8.svg";
 
-function NavArrow({ icon }: { icon: string }) {
+const SLIDES = [
+  {
+    img: "/images/KCzaP2wFXirf4rM05DaNs7YhEg.png",
+    title: "Общая база знаний",
+    desc: "Все лайфхаки для путешествий в одном месте — от бронирования до легального дохода за границей",
+  },
+  {
+    img: "/images/GJJb8Uv9Akr2qx0xpfl7zQqPRM.png",
+    title: "Италия: Рим, Флоренция и Венеция",
+    desc: "Практичный гид по Италии: города, маршруты, транспорт, бюджет, язык и идеи для насыщенной поездки",
+  },
+  {
+    img: "/images/LGj6z4TDM3zL3Uv8ViTYEB4rUY.png",
+    title: "Япония: Токио, Киото и Осака",
+    desc: "Города, маршруты, транспорт и бюджет для самостоятельной поездки по Японии",
+  },
+];
+
+function NavArrow({ icon, dir }: { icon: string; dir: "prev" | "next" }) {
   return (
-    <button className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white shadow-[0_6px_18px_rgba(26,26,23,0.12)] transition-transform hover:scale-105 md:flex">
+    <button
+      data-arrow={dir}
+      data-ref="season"
+      aria-label={dir === "next" ? "Следующий" : "Предыдущий"}
+      className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white shadow-[0_6px_18px_rgba(26,26,23,0.12)] transition-transform hover:scale-105 md:flex"
+    >
       <img src={icon} alt="" className="h-3 w-auto" />
     </button>
+  );
+}
+
+function Slide({
+  img,
+  title,
+  desc,
+}: {
+  img: string;
+  title: string;
+  desc: string;
+}) {
+  return (
+    <article className="flex w-full shrink-0 flex-col overflow-hidden rounded-[28px] bg-white p-3 sm:flex-row">
+      <img
+        src={img}
+        alt={title}
+        className="h-56 w-full rounded-[20px] object-cover sm:h-auto sm:w-[46%]"
+        draggable={false}
+      />
+      <div className="flex flex-1 flex-col p-6">
+        <h3 className="t-h3 text-ink">{title}</h3>
+        <p className="t-body mt-3 text-gray">{desc}</p>
+        <button className="mt-auto flex w-fit items-center gap-3 rounded-full bg-ink py-1.5 pl-6 pr-1.5 text-white transition-opacity hover:opacity-90">
+          <span className="font-display text-[16px] font-medium">Подробнее</span>
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white">
+            <img src={ARROW_UP_RIGHT} alt="" className="h-3.5 w-3.5" />
+          </span>
+        </button>
+      </div>
+    </article>
   );
 }
 
@@ -19,7 +72,7 @@ export function TopSeason() {
   return (
     <section
       id="season"
-      className="relative overflow-hidden pb-56 pt-24"
+      className="relative overflow-hidden pb-72 pt-24"
       style={{
         background:
           "linear-gradient(to bottom, #ffdfcd 0%, #ffdfcd 66%, #ffffff 92%)",
@@ -34,37 +87,16 @@ export function TopSeason() {
           </h2>
         </Reveal>
 
-        <Reveal
-          delay={100}
-          className="mt-14 flex items-center justify-center gap-6"
-        >
-          <NavArrow icon={ARROW_LEFT} />
-
-          <article className="flex w-full max-w-[680px] flex-col overflow-hidden rounded-[28px] bg-white p-3 sm:flex-row">
-            <img
-              src={CARD_IMG}
-              alt="Общая база знаний"
-              className="h-56 w-full rounded-[20px] object-cover sm:h-auto sm:w-[46%]"
-              draggable={false}
-            />
-            <div className="flex flex-1 flex-col p-6">
-              <h3 className="t-h3 text-ink">Общая база знаний</h3>
-              <p className="t-body mt-3 text-gray">
-                Все лайфхаки для путешествий в одном месте — от бронирования до
-                легального дохода за границей
-              </p>
-              <button className="mt-auto flex w-fit items-center gap-3 rounded-full bg-ink py-1.5 pl-6 pr-1.5 text-white transition-opacity hover:opacity-90">
-                <span className="font-display text-[16px] font-medium">
-                  Подробнее
-                </span>
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white">
-                  <img src={ARROW_UP_RIGHT} alt="" className="h-3.5 w-3.5" />
-                </span>
-              </button>
+        <Reveal delay={100} className="mt-14 flex items-center justify-center gap-6">
+          <NavArrow icon={ARROW_LEFT} dir="prev" />
+          <div data-slider="season" className="w-full max-w-[680px] overflow-hidden">
+            <div className="flex gap-6">
+              {SLIDES.map((s) => (
+                <Slide key={s.title} {...s} />
+              ))}
             </div>
-          </article>
-
-          <NavArrow icon={ARROW_RIGHT} />
+          </div>
+          <NavArrow icon={ARROW_RIGHT} dir="next" />
         </Reveal>
       </div>
 

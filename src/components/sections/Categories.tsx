@@ -13,8 +13,8 @@ const PHOTOS = [
 function PhotoCard({ src }: { src: string }) {
   return (
     <div
-      className="group relative aspect-[3/5] w-[calc((100%-3rem)/3)] shrink-0 overflow-hidden transition-opacity duration-500"
-      style={{ clipPath: "inset(0 round 50% / 30%)" }}
+      className="group relative aspect-[5/7] w-[calc((100%-3rem)/3)] shrink-0 overflow-hidden transition-opacity duration-500"
+      style={{ clipPath: "inset(0 round 50% / 36%)" }}
     >
       <img
         src={src}
@@ -55,6 +55,7 @@ export function Categories() {
         <div
           data-slider="cats"
           data-fade=""
+          data-center=""
           className="cursor-grab overflow-hidden active:cursor-grabbing"
         >
           <div className="flex items-start gap-6">

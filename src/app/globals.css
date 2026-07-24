@@ -307,7 +307,7 @@ html.lenis body {
 /* =========================================================================
    Responsive type scaling (Framer tablet / mobile breakpoints)
    ========================================================================= */
-@media (max-width: 1199.98px) {
+@media (max-width: 1365.98px) {
   .t-hero,
   .t-hero-i {
     font-size: 64px;
@@ -315,8 +315,8 @@ html.lenis body {
   }
   .t-h2,
   .t-h2-i {
-    font-size: 40px;
-    letter-spacing: -0.9px;
+    font-size: 46px;
+    letter-spacing: -1px;
   }
   .t-display {
     font-size: 104px;

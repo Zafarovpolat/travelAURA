@@ -102,15 +102,21 @@ export function SiteFooter() {
         draggable={false}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/15 to-black/60" />
-      {/* soft white wash over the top ~30% */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-[30%] bg-gradient-to-b from-white/90 via-white/45 to-transparent" />
+      {/* white gradient — top ~20% white, rest transparent (over photo+overlay, under clouds) */}
+      <div
+        className="pointer-events-none absolute inset-0 z-[5]"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.6) 9%, rgba(255,255,255,0) 20%)",
+        }}
+      />
 
       {/* three clouds stuck to the top (flipped 180°), raised high + tighter */}
       <CloudStrip flip edge={-110} tight />
 
       <div className="relative z-10 flex flex-1 flex-col">
         {/* CTA headline — centered in the block */}
-        <div className="container-page flex flex-1 items-center justify-center py-32 text-center">
+        <div className="container-page flex flex-1 items-center justify-center pb-28 pt-52 text-center">
           <Reveal>
             <h2 className="t-hero text-white">
               Твоё <span className="t-hero-i">Путешествие</span>

@@ -103,7 +103,9 @@ export function SiteFooter() {
         playsInline
         className="absolute inset-x-0 top-[-15%] h-[130%] w-full select-none object-cover will-change-transform"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/15 to-black/60" />
+      {/* dark overlay over the video */}
+      <div className="absolute inset-0 bg-black/30" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/25 to-black/70" />
       {/* white gradient — top ~20% white, rest transparent (over photo+overlay, under clouds) */}
       <div
         className="pointer-events-none absolute inset-0 z-[5]"

@@ -34,15 +34,13 @@ export function CitiesMarquee() {
       }}
     >
       <div className="py-12">
-        {/* the whole black band is tilted (background + scallops + text) */}
-        <div className="relative -rotate-3 scale-x-[1.12]">
-          <div className="relative overflow-hidden bg-ink py-16">
-            <div className="scallop-top" />
+        {/* whole tilted black band (mask gives scalloped edges — no stray pixel) */}
+        <div className="-rotate-3 scale-x-[1.12]">
+          <div className="marquee-band overflow-hidden py-16">
             <div className="flex w-max animate-[marquee_48s_linear_infinite]">
               <Row />
               <Row />
             </div>
-            <div className="scallop-bottom" />
           </div>
         </div>
       </div>

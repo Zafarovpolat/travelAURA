@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { Reveal } from "./Reveal";
+import { CloudStrip } from "./Clouds";
 
 const CARD_IMG = "/images/KCzaP2wFXirf4rM05DaNs7YhEg.png";
 const ARROW_UP_RIGHT = "/images/BbyPZY09N03enLhkU6HDikyBz0I.svg";
 const ARROW_LEFT = "/images/EuCRBEy3WmP3TOPcFR80q5d18NM.svg";
 const ARROW_RIGHT = "/images/ujDHATQhQaeDKRnUwXqlIRn8.svg";
-const CLOUD = "/images/Q5S1u6umPHpGRA2Vw4EGgTijziI.png";
 
 function NavArrow({ icon }: { icon: string }) {
   return (
@@ -64,15 +64,8 @@ export function TopSeason() {
         </Reveal>
       </div>
 
-      {/* big clouds stuck to the bottom (behind content) */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[300px] overflow-hidden">
-        <img
-          src={CLOUD}
-          alt=""
-          className="absolute bottom-0 left-1/2 w-[160%] max-w-none -translate-x-1/2"
-          draggable={false}
-        />
-      </div>
+      {/* three clouds stuck to the bottom */}
+      <CloudStrip />
     </section>
   );
 }

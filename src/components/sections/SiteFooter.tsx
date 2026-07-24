@@ -2,15 +2,15 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useRef } from "react";
 import { Reveal } from "./Reveal";
+import { CloudStrip } from "./Clouds";
 
 const BEACH = "/images/yKl7tryOAzg41OLEu5kcZlSYNEE.png";
-const CLOUD = "/images/YApDDkYaJPOth2ThyXbHiwPU7UM.png";
 const LOGO = "/images/LILzm3rkYRV49194JCrUDbwS5c.svg";
 const IG = "/images/70eRGKptiD5CD9gSJodYVqJchL0.svg";
 const X = "/images/Or88UMlQlmwZxGih5WX3ZguFzA.svg";
 
 const DESTS = [
-  { label: "Общая база знаний", flag: "/images/uecbId5oKZ2rjlROouIcuGPtQ.svg" },
+  { label: "Япония", flag: "/images/uecbId5oKZ2rjlROouIcuGPtQ.svg" },
   { label: "Италия", flag: "/images/LSjPcu2bVLOoMazLpkIyd64CGo.png" },
   { label: "Тайланд", flag: "/images/CBjPfi1BPLS1kbNisJuio7zLQY.png" },
 ];
@@ -103,15 +103,8 @@ export function SiteFooter() {
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/55" />
 
-      {/* clouds stuck to the top (flipped) */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-[240px] -scale-y-100 overflow-hidden">
-        <img
-          src={CLOUD}
-          alt=""
-          className="absolute bottom-0 left-1/2 w-[180%] max-w-none -translate-x-1/2 mix-blend-screen"
-          draggable={false}
-        />
-      </div>
+      {/* three clouds stuck to the top (flipped 180°) */}
+      <CloudStrip flip />
 
       <div className="relative z-10 flex flex-1 flex-col">
         {/* CTA headline — centered in the block */}

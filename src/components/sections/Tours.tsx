@@ -37,37 +37,37 @@ function GuideCard({ img, title, desc, soon }: Guide) {
   return (
     <a
       href="#"
-      className="group flex w-[calc((100%-3rem)/3)] shrink-0 flex-col rounded-[24px] bg-white p-3 shadow-[0_2px_20px_rgba(26,26,23,0.06)] ring-1 ring-ink/5"
+      className="group flex w-[calc((100%-3rem)/3)] shrink-0 flex-col overflow-hidden rounded-[20px] bg-[#f2f2f0]"
     >
-      <div className="relative overflow-hidden rounded-[16px]">
+      <div className="relative">
         <img
           src={img}
           alt={title}
-          className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+          className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           draggable={false}
         />
         {soon && (
-          <span className="t-label absolute bottom-3 left-3 rounded-full bg-ink px-3 py-1.5 text-white">
+          <span className="t-label absolute bottom-3 left-3 rounded-full bg-ink px-3 py-1 text-white">
             Скоро
           </span>
         )}
       </div>
 
-      <div className="flex flex-1 flex-col px-2 pb-1 pt-5">
-        <h3 className="t-card-title text-ink">{title}</h3>
-        <p className="t-body mt-2 line-clamp-3 min-h-[3.6em] text-gray">{desc}</p>
-
-        <div className="mt-auto pt-6">
-          <div className="border-t border-ink/10 pt-4" />
-          <div className="mt-1 flex items-center justify-between">
-            <div className="flex items-baseline gap-2">
-              <span className="t-h3 text-ink">50%</span>
-              <span className="t-label text-gray">скидка</span>
-            </div>
-            <span className="t-label rounded-full bg-ink px-4 py-2.5 text-white transition-opacity group-hover:opacity-80">
-              Подробнее
-            </span>
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="font-display text-[17px] font-semibold leading-tight text-ink">
+          {title}
+        </h3>
+        <p className="mt-2 line-clamp-3 min-h-[3.4em] font-stack text-[13px] leading-[1.35] text-gray">
+          {desc}
+        </p>
+        <div className="mt-auto flex items-center justify-between pt-5">
+          <div className="flex items-baseline gap-1.5">
+            <span className="font-display text-[20px] font-semibold text-ink">50%</span>
+            <span className="font-stack text-[13px] text-gray">скидка</span>
           </div>
+          <span className="rounded-full bg-ink px-3.5 py-1.5 font-display text-[13px] font-medium text-white transition-opacity group-hover:opacity-80">
+            Подробнее
+          </span>
         </div>
       </div>
     </a>
@@ -89,9 +89,9 @@ export function Tours() {
         </Reveal>
       </div>
 
-      {/* Slider — exactly 3 visible, 4th hidden (overflow hidden + JS autoplay) */}
+      {/* Slider — exactly 3 visible, 4th hidden */}
       <Reveal delay={80} className="mx-auto mt-12 max-w-[1200px] px-10">
-        <div data-slider="tours" className="overflow-hidden">
+        <div data-slider="tours" className="cursor-grab overflow-hidden active:cursor-grabbing">
           <div className="flex items-stretch gap-6">
             {GUIDES.map((g) => (
               <GuideCard key={g.title} {...g} />
@@ -100,7 +100,7 @@ export function Tours() {
         </div>
       </Reveal>
 
-      {/* pagination pill (gray background) */}
+      {/* pagination pill (gray) */}
       <div className="mt-10 flex justify-center">
         <div
           data-dots="tours"
@@ -110,7 +110,7 @@ export function Tours() {
             <span
               key={i}
               data-dot=""
-              className="h-2 rounded-full"
+              className="dot h-2 rounded-full"
               style={{
                 width: i === 0 ? 24 : 8,
                 background: i === 0 ? "#1a1a17" : "rgba(26,26,23,0.3)",

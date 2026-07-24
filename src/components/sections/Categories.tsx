@@ -1,23 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
 import { Reveal } from "./Reveal";
 
+const ARROW = "/images/BbyPZY09N03enLhkU6HDikyBz0I.svg";
+
 const PHOTOS = [
   "/images/PZya8u3JHsscGvzhdNhi0nWpc.png",
   "/images/e4qmkfXyV6fkiMTY6XJzDwPQr4.png",
   "/images/aSZ4pclaWJ4D6Qm6UPcMQdC9A.png",
   "/images/J1TPOL7ClpOGXZwPGZA5nnE6oY.png",
-  "/images/vfhudlU9zr6W4l4WYrEEUkqQ5M.jpg",
 ];
 
 function PhotoCard({ src }: { src: string }) {
   return (
-    <div className="aspect-[3/4] w-[calc((100%-3rem)/3)] shrink-0 overflow-hidden rounded-t-[150px] rounded-b-[90px]">
+    <div className="group relative aspect-[3/4] w-[calc((100%-3rem)/3)] shrink-0 overflow-hidden rounded-[50%] transition-opacity duration-500">
       <img
         src={src}
         alt="Соло-путешествие"
-        className="h-full w-full object-cover"
+        className="h-full w-full object-cover transition duration-500 group-hover:scale-105 group-hover:blur-[2px]"
         draggable={false}
       />
+      <span className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_8px_24px_rgba(0,0,0,0.18)]">
+          <img src={ARROW} alt="" className="h-5 w-5" />
+        </span>
+      </span>
     </div>
   );
 }
@@ -39,20 +45,18 @@ export function Categories() {
         </Reveal>
       </div>
 
-      {/* Slider — exactly 3 visible, extra slides hidden (JS autoplay) */}
-      <Reveal className="relative mx-auto mt-14 max-w-[1200px] px-10">
-        <div data-slider="cats" className="overflow-hidden">
+      {/* Slider — exactly 3 visible, drag / autoplay / pagination */}
+      <Reveal className="mx-auto mt-14 max-w-[1200px] px-10">
+        <div data-slider="cats" className="cursor-grab overflow-hidden active:cursor-grabbing">
           <div className="flex gap-6">
             {PHOTOS.map((src) => (
               <PhotoCard key={src} src={src} />
             ))}
           </div>
         </div>
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-[10%] bg-gradient-to-r from-white to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-[10%] bg-gradient-to-l from-white to-transparent" />
       </Reveal>
 
-      {/* pagination pill (gray background) */}
+      {/* pagination pill (gray) */}
       <div className="mt-10 flex justify-center">
         <div
           data-dots="cats"
@@ -62,7 +66,7 @@ export function Categories() {
             <span
               key={i}
               data-dot=""
-              className="h-2 rounded-full"
+              className="dot h-2 rounded-full"
               style={{
                 width: i === 0 ? 24 : 8,
                 background: i === 0 ? "#1a1a17" : "rgba(26,26,23,0.3)",

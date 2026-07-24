@@ -97,7 +97,7 @@ export function Tours() {
 
       {/* Slider — exactly 3 visible, 4th hidden (no opacity fade here) */}
       <Reveal delay={80} className="mx-auto mt-12 max-w-[1200px] px-10">
-        <div data-slider="tours" className="cursor-grab overflow-hidden active:cursor-grabbing">
+        <div data-slider="tours" data-loop="" className="overflow-hidden">
           <div className="flex items-stretch gap-6">
             {GUIDES.map((g) => (
               <GuideCard key={g.title} {...g} />

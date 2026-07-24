@@ -57,7 +57,7 @@ export function Categories() {
           data-fade=""
           data-center=""
           data-loop=""
-          className="cursor-grab overflow-hidden active:cursor-grabbing"
+          className="overflow-hidden"
         >
           <div className="flex items-start gap-6">
             {PHOTOS.map((src) => (

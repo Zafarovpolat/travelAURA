@@ -93,7 +93,7 @@ export function TopSeason() {
             data-slider="season"
             data-loop=""
             data-noauto=""
-            className="w-full max-w-[680px] cursor-grab overflow-hidden active:cursor-grabbing"
+            className="w-full max-w-[680px] overflow-hidden"
           >
             <div className="flex gap-6">
               {SLIDES.map((s) => (

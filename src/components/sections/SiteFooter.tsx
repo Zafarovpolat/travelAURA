@@ -116,7 +116,7 @@ export function SiteFooter() {
 
       <div className="relative z-10 flex flex-1 flex-col">
         {/* CTA headline — centered in the block */}
-        <div className="container-page flex flex-1 items-center justify-center pb-28 pt-52 text-center">
+        <div className="container-page flex flex-1 items-center justify-center pb-28 pt-64 text-center">
           <Reveal>
             <h2 className="t-hero text-white">
               Твоё <span className="t-hero-i">Путешествие</span>

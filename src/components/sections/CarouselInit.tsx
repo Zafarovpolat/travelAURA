@@ -8,6 +8,7 @@ import { useEffect } from "react";
  *  [data-center] keep active centred · [data-fade] inactive 0.6 opacity
  *  [data-loop] seamless infinite · [data-noauto] no autoplay
  *  [data-dots="key"]>[data-dot] pagination · [data-arrow="prev|next"][data-ref="key"] arrows
+ * Navigation via autoplay / arrows / dots only (no manual drag).
  */
 export function CarouselInit() {
   useEffect(() => {
@@ -77,6 +78,7 @@ export function CarouselInit() {
         if (i >= real * 2) i -= real;
         else if (i < real) i += real;
         apply(false);
+        paint();
       };
       const go = (n: number) => {
         i = loop ? n : (n + items.length) % items.length;
@@ -107,59 +109,6 @@ export function CarouselInit() {
       wrap.addEventListener("mouseenter", stop);
       wrap.addEventListener("mouseleave", start);
 
-      // drag / swipe (+ subtle image parallax on non-centred sliders)
-      let down = false;
-      let sx = 0;
-      let base = 0;
-      let moved = false;
-      const imgs = () => (center ? [] : Array.from(flex.querySelectorAll<HTMLElement>("img")));
-      wrap.addEventListener("pointerdown", (e) => {
-        down = true;
-        moved = false;
-        sx = e.clientX;
-        base = offsetFor(i);
-        stop();
-        flex.style.transition = "none";
-        imgs().forEach((im) => (im.style.transition = "none"));
-      });
-      const onMove = (e: PointerEvent) => {
-        if (!down) return;
-        const dx = e.clientX - sx;
-        if (Math.abs(dx) > 4) moved = true;
-        flex.style.transform = `translateX(${base + dx}px)`;
-        imgs().forEach((im) => (im.style.transform = `translateX(${dx * 0.1}px) scale(1.06)`));
-      };
-      const onUp = (e: PointerEvent) => {
-        if (!down) return;
-        down = false;
-        const dx = e.clientX - sx;
-        const steps = Math.round(-dx / iw());
-        i = loop ? i + steps : Math.max(0, Math.min(items.length - 1, i + steps));
-        apply(true);
-        imgs().forEach((im) => {
-          im.style.transition = "transform 0.5s ease";
-          im.style.transform = "";
-        });
-        paint();
-        start();
-        if (loop) {
-          clearTimeout(settleT);
-          settleT = window.setTimeout(settle, 700);
-        }
-      };
-      window.addEventListener("pointermove", onMove);
-      window.addEventListener("pointerup", onUp);
-      wrap.addEventListener(
-        "click",
-        (e) => {
-          if (moved) {
-            e.preventDefault();
-            e.stopPropagation();
-          }
-        },
-        true,
-      );
-
       const onResize = () => apply(false);
       window.addEventListener("resize", onResize);
       apply(false);
@@ -169,8 +118,6 @@ export function CarouselInit() {
       cleanups.push(() => {
         stop();
         clearTimeout(settleT);
-        window.removeEventListener("pointermove", onMove);
-        window.removeEventListener("pointerup", onUp);
         window.removeEventListener("resize", onResize);
       });
     });

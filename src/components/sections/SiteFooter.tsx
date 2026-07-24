@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { Reveal } from "./Reveal";
 import { CloudStrip } from "./Clouds";
 
-const BEACH = "/images/yKl7tryOAzg41OLEu5kcZlSYNEE.png";
+const VIDEO = "/videos/footer.mp4";
 const LOGO = "/images/LILzm3rkYRV49194JCrUDbwS5c.svg";
 const IG = "/images/70eRGKptiD5CD9gSJodYVqJchL0.svg";
 const X = "/images/Or88UMlQlmwZxGih5WX3ZguFzA.svg";
@@ -63,7 +63,7 @@ function Column({
 
 export function SiteFooter() {
   const rootRef = useRef<HTMLElement>(null);
-  const bgRef = useRef<HTMLImageElement>(null);
+  const bgRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     let raf = 0;
@@ -92,14 +92,16 @@ export function SiteFooter() {
       ref={rootRef}
       className="relative flex min-h-screen flex-col overflow-hidden"
     >
-      {/* beach background (parallax) */}
-      <img
+      {/* background video (parallax) */}
+      <video
         ref={bgRef}
         data-parallax="footer"
-        src={BEACH}
-        alt=""
+        src={VIDEO}
+        autoPlay
+        loop
+        muted
+        playsInline
         className="absolute inset-x-0 top-[-15%] h-[130%] w-full select-none object-cover will-change-transform"
-        draggable={false}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/15 to-black/60" />
       {/* white gradient — top ~20% white, rest transparent (over photo+overlay, under clouds) */}
@@ -107,7 +109,7 @@ export function SiteFooter() {
         className="pointer-events-none absolute inset-0 z-[5]"
         style={{
           background:
-            "linear-gradient(to bottom, #ffffff 0%, #ffffff 14%, rgba(255,255,255,0.55) 30%, rgba(255,255,255,0) 46%)",
+            "linear-gradient(to bottom, #ffffff 0%, #ffffff 6%, rgba(255,255,255,0.5) 15%, rgba(255,255,255,0) 26%)",
         }}
       />
 
@@ -127,11 +129,11 @@ export function SiteFooter() {
         </div>
 
         {/* footer content */}
-        <div className="container-page pb-10">
+        <div className="container-page pb-6">
           <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
             {/* brand + destinations */}
             <div>
-              <img src={LOGO} alt="travelAURA" className="h-9 w-auto" />
+              <img src={LOGO} alt="travelAURA" className="h-12 w-auto" />
               <div className="mt-6 flex flex-nowrap gap-3 overflow-x-auto md:overflow-visible">
                 {DESTS.map((d) => (
                   <DestPill key={d.label} {...d} />

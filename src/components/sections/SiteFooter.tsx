@@ -54,7 +54,7 @@ function Column({
 }) {
   return (
     <div className="min-w-[150px]">
-      <h4 className="font-serif text-[19px] font-semibold text-white">{title}</h4>
+      <h4 className="font-serif italic text-[19px] font-semibold text-white">{title}</h4>
       <div className="mt-3 border-t border-white/25" />
       <ul className="mt-4 space-y-3">{children}</ul>
     </div>
@@ -150,7 +150,7 @@ export function SiteFooter() {
                   <li key={n}>
                     <a
                       href="#"
-                      className="link-underline inline-block font-serif text-[16px] text-white/85 transition-colors hover:text-white"
+                      className="link-underline inline-block font-serif italic text-[16px] text-white/85 transition-colors hover:text-white"
                     >
                       {n}
                     </a>
@@ -162,7 +162,7 @@ export function SiteFooter() {
                   <li key={c.label}>
                     <a
                       href={c.href}
-                      className="link-underline inline-block font-serif text-[16px] text-white/85 transition-colors hover:text-white"
+                      className="link-underline inline-block font-serif italic text-[16px] text-white/85 transition-colors hover:text-white"
                     >
                       {c.label}
                     </a>

@@ -8,9 +8,9 @@ const ITEMS = [
 
 function Row() {
   return (
-    <div className="flex shrink-0 items-center gap-10 pr-10">
+    <div className="flex shrink-0 items-center gap-20 pr-20">
       {ITEMS.map((it, i) => (
-        <div key={i} className="flex shrink-0 items-center gap-10">
+        <div key={i} className="flex shrink-0 items-center gap-20">
           <span className="t-display whitespace-nowrap text-white">{it.label}</span>
           <img
             src={it.flag}
@@ -37,7 +37,7 @@ export function CitiesMarquee() {
         {/* whole tilted black band (mask gives scalloped edges — no stray pixel) */}
         <div className="-rotate-3 scale-x-[1.12]">
           <div className="marquee-band overflow-hidden py-16">
-            <div className="flex w-max animate-[marquee_48s_linear_infinite]">
+            <div className="flex w-max animate-[marquee_72s_linear_infinite]">
               <Row />
               <Row />
             </div>

@@ -107,7 +107,7 @@ export function SiteFooter() {
         className="pointer-events-none absolute inset-0 z-[5]"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.6) 9%, rgba(255,255,255,0) 20%)",
+            "linear-gradient(to bottom, #ffffff 0%, #ffffff 14%, rgba(255,255,255,0.55) 30%, rgba(255,255,255,0) 46%)",
         }}
       />
 

@@ -89,7 +89,12 @@ export function TopSeason() {
 
         <Reveal delay={100} className="mt-14 flex items-center justify-center gap-6">
           <NavArrow icon={ARROW_LEFT} dir="prev" />
-          <div data-slider="season" className="w-full max-w-[680px] overflow-hidden">
+          <div
+            data-slider="season"
+            data-loop=""
+            data-noauto=""
+            className="w-full max-w-[680px] cursor-grab overflow-hidden active:cursor-grabbing"
+          >
             <div className="flex gap-6">
               {SLIDES.map((s) => (
                 <Slide key={s.title} {...s} />

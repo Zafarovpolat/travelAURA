@@ -3,13 +3,11 @@
 import { useEffect } from "react";
 
 /**
- * Transform-based carousels.
- *  [data-slider="key"]  — the overflow-hidden viewport; its first child is the flex track.
- *  [data-center]        — keep the active slide centred (others move with it).
- *  [data-fade]          — inactive slides at 0.6 opacity.
- *  [data-dots="key"] > [data-dot]         — clickable pagination.
- *  [data-arrow="prev|next"][data-ref="key"] — prev/next buttons.
- * Autoplay + pointer drag (swipe) supported.
+ * Transform-based carousels with optional seamless infinite loop.
+ *  [data-slider="key"] — viewport; first child is the flex track.
+ *  [data-center] keep active centred · [data-fade] inactive 0.6 opacity
+ *  [data-loop] seamless infinite · [data-noauto] no autoplay
+ *  [data-dots="key"]>[data-dot] pagination · [data-arrow="prev|next"][data-ref="key"] arrows
  */
 export function CarouselInit() {
   useEffect(() => {
@@ -19,96 +17,135 @@ export function CarouselInit() {
       const key = wrap.getAttribute("data-slider");
       const flex = wrap.firstElementChild as HTMLElement | null;
       if (!flex) return;
-      const items = Array.from(flex.children) as HTMLElement[];
-      if (items.length === 0) return;
+      let items = Array.from(flex.children) as HTMLElement[];
+      const real = items.length;
+      if (real === 0) return;
+
+      const loop = wrap.hasAttribute("data-loop") && real > 1;
+      const center = wrap.hasAttribute("data-center");
+      const fade = wrap.hasAttribute("data-fade");
+      const auto = !wrap.hasAttribute("data-noauto");
+      const gap = 24;
+
+      if (loop) {
+        const head = document.createDocumentFragment();
+        const tail = document.createDocumentFragment();
+        items.forEach((it) => {
+          const c = it.cloneNode(true) as HTMLElement;
+          c.setAttribute("data-clone", "");
+          head.appendChild(c);
+        });
+        items.forEach((it) => {
+          const c = it.cloneNode(true) as HTMLElement;
+          c.setAttribute("data-clone", "");
+          tail.appendChild(c);
+        });
+        flex.insertBefore(head, flex.firstChild);
+        flex.appendChild(tail);
+        items = Array.from(flex.children) as HTMLElement[];
+      }
 
       const dotsWrap = document.querySelector<HTMLElement>(`[data-dots="${key}"]`);
       const dots = dotsWrap
         ? Array.from(dotsWrap.querySelectorAll<HTMLElement>("[data-dot]"))
         : [];
-      const center = wrap.hasAttribute("data-center");
-      const fade = wrap.hasAttribute("data-fade");
-      const gap = 24;
 
-      let i = center && items.length > 1 ? 1 : 0;
-
+      let i = loop ? real : center && real > 1 ? 1 : 0;
       const iw = () => items[0].getBoundingClientRect().width + gap;
+      const baseX = () =>
+        center ? (wrap.clientWidth - items[0].getBoundingClientRect().width) / 2 : 0;
       const offsetFor = (idx: number) => {
-        if (center) {
-          return (
-            (wrap.clientWidth - items[0].getBoundingClientRect().width) / 2 -
-            idx * iw()
-          );
-        }
+        if (loop || center) return baseX() - idx * iw();
         const min = Math.min(0, -(flex.scrollWidth - wrap.clientWidth));
         return Math.max(min, -idx * iw());
       };
+      const rIdx = () => ((i % real) + real) % real;
       const paint = () => {
-        if (fade)
-          items.forEach((it, ii) => (it.style.opacity = ii === i ? "1" : "0.6"));
+        if (fade) items.forEach((it, ii) => (it.style.opacity = ii === i ? "1" : "0.6"));
         dots.forEach((d, di) => {
-          d.style.width = di === i ? "24px" : "8px";
-          d.style.background = di === i ? "#1a1a17" : "rgba(26,26,23,0.3)";
+          d.style.width = di === rIdx() ? "24px" : "8px";
+          d.style.background = di === rIdx() ? "#1a1a17" : "rgba(26,26,23,0.3)";
         });
       };
-      const apply = (animate: boolean) => {
-        flex.style.transition = animate
-          ? "transform 0.6s cubic-bezier(0.4,0,0.2,1)"
-          : "none";
+      const apply = (anim: boolean) => {
+        flex.style.transition = anim ? "transform 0.65s cubic-bezier(0.4,0,0.2,1)" : "none";
         flex.style.transform = `translateX(${offsetFor(i)}px)`;
       };
+      let settleT = 0;
+      const settle = () => {
+        if (!loop) return;
+        if (i >= real * 2) i -= real;
+        else if (i < real) i += real;
+        apply(false);
+      };
       const go = (n: number) => {
-        i = (n + items.length) % items.length;
+        i = loop ? n : (n + items.length) % items.length;
         apply(true);
         paint();
+        if (loop) {
+          clearTimeout(settleT);
+          settleT = window.setTimeout(settle, 700);
+        }
       };
 
-      dots.forEach((d, di) => d.addEventListener("click", () => go(di)));
+      dots.forEach((d, di) => d.addEventListener("click", () => go(loop ? real + di : di)));
       document
         .querySelectorAll<HTMLElement>(`[data-arrow][data-ref="${key}"]`)
         .forEach((btn) =>
           btn.addEventListener("click", () =>
-            go(btn.getAttribute("data-arrow") === "next" ? i + 1 : i - 1),
+            go(i + (btn.getAttribute("data-arrow") === "next" ? 1 : -1)),
           ),
         );
 
-      let timer = window.setInterval(() => go(i + 1), 3800);
+      let timer = 0;
       const stop = () => window.clearInterval(timer);
       const start = () => {
+        if (!auto) return;
         stop();
-        timer = window.setInterval(() => go(i + 1), 3800);
+        timer = window.setInterval(() => go(i + 1), 4200);
       };
       wrap.addEventListener("mouseenter", stop);
       wrap.addEventListener("mouseleave", start);
 
-      // pointer drag / swipe
+      // drag / swipe (+ subtle image parallax on non-centred sliders)
       let down = false;
-      let startX = 0;
+      let sx = 0;
       let base = 0;
       let moved = false;
+      const imgs = () => (center ? [] : Array.from(flex.querySelectorAll<HTMLElement>("img")));
       wrap.addEventListener("pointerdown", (e) => {
         down = true;
         moved = false;
-        startX = e.clientX;
+        sx = e.clientX;
         base = offsetFor(i);
         stop();
         flex.style.transition = "none";
+        imgs().forEach((im) => (im.style.transition = "none"));
       });
       const onMove = (e: PointerEvent) => {
         if (!down) return;
-        const dx = e.clientX - startX;
+        const dx = e.clientX - sx;
         if (Math.abs(dx) > 4) moved = true;
         flex.style.transform = `translateX(${base + dx}px)`;
+        imgs().forEach((im) => (im.style.transform = `translateX(${dx * 0.1}px) scale(1.06)`));
       };
       const onUp = (e: PointerEvent) => {
         if (!down) return;
         down = false;
-        const dx = e.clientX - startX;
+        const dx = e.clientX - sx;
         const steps = Math.round(-dx / iw());
-        i = Math.max(0, Math.min(items.length - 1, i + steps));
+        i = loop ? i + steps : Math.max(0, Math.min(items.length - 1, i + steps));
         apply(true);
+        imgs().forEach((im) => {
+          im.style.transition = "transform 0.5s ease";
+          im.style.transform = "";
+        });
         paint();
         start();
+        if (loop) {
+          clearTimeout(settleT);
+          settleT = window.setTimeout(settle, 700);
+        }
       };
       window.addEventListener("pointermove", onMove);
       window.addEventListener("pointerup", onUp);
@@ -127,9 +164,11 @@ export function CarouselInit() {
       window.addEventListener("resize", onResize);
       apply(false);
       paint();
+      start();
 
       cleanups.push(() => {
         stop();
+        clearTimeout(settleT);
         window.removeEventListener("pointermove", onMove);
         window.removeEventListener("pointerup", onUp);
         window.removeEventListener("resize", onResize);

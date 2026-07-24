@@ -56,6 +56,7 @@ export function Categories() {
           data-slider="cats"
           data-fade=""
           data-center=""
+          data-loop=""
           className="cursor-grab overflow-hidden active:cursor-grabbing"
         >
           <div className="flex items-start gap-6">

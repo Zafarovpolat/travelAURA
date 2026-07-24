@@ -1,0 +1,298 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+/* =========================================================================
+   Design tokens — extracted 1:1 from the target Framer site
+   ========================================================================= */
+@theme {
+  /* Ink / neutrals */
+  --color-ink: #1a1a17;
+  --color-ink-70: rgb(26 26 23 / 0.7);
+  --color-ink-30: rgb(26 26 23 / 0.3);
+  --color-ink-10: rgb(26 26 23 / 0.1);
+  --color-gray: #5e5e5e;
+  --color-gray-30: rgb(94 94 94 / 0.3);
+  --color-muted: #b4b4b4;
+  --color-smoke: #f7f7f7;
+  --color-dark: #121212;
+
+  /* Accent */
+  --color-accent: #0099ff;
+
+  /* Pastel section backgrounds */
+  --color-peach: #ffdfcd;
+  --color-pink: #fedbe5;
+  --color-cream: #fff6c7;
+  --color-sky: #d2e6f6;
+
+  /* Social brand colors */
+  --color-social-orange: #fa8f21;
+  --color-social-magenta: #d82d7e;
+  --color-social-green: #25d366;
+  --color-social-red: #f44336;
+
+  /* Font families (Inter covers "Inter" + "Inter Display") */
+  --font-display: "Inter Display", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Source Serif 4", ui-serif, Georgia, serif;
+  --font-stack: "Stack Sans Headline", "Inter", sans-serif;
+}
+
+/* Fonts declared in ./fonts.css — self-hosted, extracted 1:1 from the target.
+   Helper utilities so components can apply the exact families directly. */
+.font-display { font-family: var(--font-display); }
+.font-body { font-family: var(--font-body); }
+.font-serif { font-family: var(--font-serif); }
+.font-stack { font-family: var(--font-stack); }
+
+/* =========================================================================
+   Base reset
+   ========================================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@layer base {
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 16px;
+    color: var(--color-ink);
+    background: #ffffff;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6, p, figure {
+    margin: 0;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+/* =========================================================================
+   Typography presets — exact values from Framer style-presets
+   ========================================================================= */
+.t-hero {
+  font-family: var(--font-display);
+  font-size: 90px;
+  font-weight: 600;
+  line-height: 1.1em;
+  letter-spacing: -1.8px;
+}
+.t-hero-i {
+  font-family: var(--font-serif);
+  font-size: 90px;
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1.2em;
+  letter-spacing: -1.8px;
+}
+.t-h2 {
+  font-family: var(--font-display);
+  font-size: 50px;
+  font-weight: 600;
+  line-height: 1.2em;
+  letter-spacing: -1.2px;
+}
+.t-h2-i {
+  font-family: var(--font-serif);
+  font-size: 50px;
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1.2em;
+  letter-spacing: -1.2px;
+}
+.t-h3 {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.2em;
+  letter-spacing: -0.06px;
+}
+.t-card-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2em;
+  letter-spacing: -0.03px;
+}
+.t-serif24 {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1.2em;
+  letter-spacing: -0.03px;
+}
+.t-display {
+  font-family: var(--font-display);
+  font-size: 150px;
+  font-weight: 700;
+  line-height: 1em;
+  letter-spacing: -1.2px;
+}
+.t-sub {
+  font-family: var(--font-stack);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2em;
+}
+.t-body-lg {
+  font-family: var(--font-stack);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.3em;
+}
+.t-body {
+  font-family: var(--font-stack);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2em;
+}
+.t-label {
+  font-family: var(--font-stack);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2em;
+}
+
+/* =========================================================================
+   Layout helpers
+   ========================================================================= */
+.container-page {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 40px;
+}
+
+@media (max-width: 809.98px) {
+  .container-page {
+    padding-inline: 20px;
+  }
+}
+
+/* Hide scrollbars on horizontal sliders while keeping scroll */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Fade-up entrance animation (Framer "appear" effect) */
+@keyframes appear-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Horizontal marquee */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Scalloped (torn-ticket) edges for the dark marquee band */
+.scallop-top,
+.scallop-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 22px;
+  z-index: 2;
+  background-repeat: repeat-x;
+  background-size: 44px 22px;
+}
+.scallop-top {
+  top: -1px;
+  background-image: radial-gradient(circle 22px at 22px 0, #ffffff 98%, transparent 100%);
+}
+.scallop-bottom {
+  bottom: -1px;
+  background-image: radial-gradient(circle 22px at 22px 22px, #ffdfcd 98%, transparent 100%);
+}
+
+/* =========================================================================
+   Responsive type scaling (Framer tablet / mobile breakpoints)
+   ========================================================================= */
+@media (max-width: 1199.98px) {
+  .t-hero,
+  .t-hero-i {
+    font-size: 64px;
+    letter-spacing: -1.3px;
+  }
+  .t-h2,
+  .t-h2-i {
+    font-size: 40px;
+    letter-spacing: -0.9px;
+  }
+  .t-display {
+    font-size: 104px;
+  }
+}
+
+@media (max-width: 809.98px) {
+  .t-hero,
+  .t-hero-i {
+    font-size: 42px;
+    letter-spacing: -0.9px;
+  }
+  .t-h2,
+  .t-h2-i {
+    font-size: 32px;
+    letter-spacing: -0.6px;
+  }
+  .t-h3 {
+    font-size: 24px;
+  }
+  .t-card-title {
+    font-size: 20px;
+  }
+  .t-serif24 {
+    font-size: 20px;
+  }
+  .t-display {
+    font-size: 64px;
+  }
+}

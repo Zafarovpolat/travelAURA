@@ -1,0 +1,51 @@
+/* eslint-disable @next/next/no-img-element */
+
+const ITEMS = [
+  { label: "Общая база знаний", flag: "/images/KLKhMlGmofwPpnyHbHOtSBzoEw.svg" },
+  { label: "Италия", flag: "/images/cujjMXLnRh0ubB7Y9PHKkqUqHng.png" },
+  { label: "Тайланд", flag: "/images/MRnUANnt1GkkM6MXqkEUxrts.png" },
+];
+
+function Row() {
+  return (
+    <div className="flex shrink-0 items-center gap-10 pr-10">
+      {ITEMS.map((it, i) => (
+        <div key={i} className="flex shrink-0 items-center gap-10">
+          <span className="t-display whitespace-nowrap text-white">{it.label}</span>
+          <img
+            src={it.flag}
+            alt=""
+            className="h-[86px] w-auto shrink-0"
+            draggable={false}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function CitiesMarquee() {
+  return (
+    <section
+      className="relative overflow-hidden"
+      style={{
+        background:
+          "linear-gradient(to bottom, #ffffff 0%, #ffffff 50%, #ffdfcd 50%, #ffdfcd 100%)",
+      }}
+    >
+      <div className="py-12">
+        {/* the whole black band is tilted (background + scallops + text) */}
+        <div className="relative -rotate-3 scale-x-[1.12]">
+          <div className="relative overflow-hidden bg-ink py-16">
+            <div className="scallop-top" />
+            <div className="flex w-max animate-[marquee_48s_linear_infinite]">
+              <Row />
+              <Row />
+            </div>
+            <div className="scallop-bottom" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

@@ -60,14 +60,20 @@ function GuideCard({ img, title, desc, soon }: Guide) {
         <p className="mt-2 line-clamp-3 min-h-[3.6em] font-stack text-[15px] leading-[1.35] text-gray">
           {desc}
         </p>
-        <div className="mt-auto flex items-center justify-between pt-5">
-          <div className="flex items-baseline gap-1.5">
-            <span className="font-display text-[20px] font-semibold text-ink">50%</span>
-            <span className="font-stack text-[13px] text-gray">скидка</span>
+        <div className="mt-auto pt-5">
+          <div className="border-t border-dashed border-ink/20" />
+          <div className="mt-4 flex items-center justify-between">
+            <div className="flex items-baseline gap-1.5">
+              <span className="font-display text-[20px] font-semibold text-ink">50%</span>
+              <span className="font-stack text-[13px] text-gray">скидка</span>
+            </div>
+            <span className="inline-flex items-center rounded-full bg-ink px-4 py-2 font-display text-[13px] font-medium text-white transition-all duration-300 group-hover:gap-1.5 group-hover:pr-3">
+              <span className="transition-transform duration-300">Подробнее</span>
+              <span className="max-w-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-w-[16px] group-hover:opacity-100">
+                →
+              </span>
+            </span>
           </div>
-          <span className="rounded-full bg-ink px-3.5 py-1.5 font-display text-[13px] font-medium text-white transition-opacity group-hover:opacity-80">
-            Подробнее
-          </span>
         </div>
       </div>
     </a>

@@ -26,7 +26,7 @@ function DestPill({ label, flag }: { label: string; flag: string }) {
   return (
     <a
       href="#"
-      className="flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full bg-white/10 py-2 pl-2 pr-4 backdrop-blur-sm ring-1 ring-white/15 transition-colors hover:bg-white/20"
+      className="pill-hover flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full bg-white/10 py-2 pl-2 pr-4 backdrop-blur-sm ring-1 ring-white/15 hover:bg-white/25"
     >
       <img src={flag} alt="" className="h-6 w-6 rounded-full object-cover" />
       <span className="t-label text-white">{label}</span>
@@ -101,19 +101,19 @@ export function SiteFooter() {
         className="absolute inset-x-0 top-[-15%] h-[130%] w-full select-none object-cover will-change-transform"
         draggable={false}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/55" />
-      {/* soft white wash over the top ~20% */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-[22%] bg-gradient-to-b from-white/75 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/15 to-black/60" />
+      {/* soft white wash over the top ~30% */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-[30%] bg-gradient-to-b from-white/90 via-white/45 to-transparent" />
 
-      {/* three clouds stuck to the top (flipped 180°), raised + tighter */}
-      <CloudStrip flip edge={-50} tight />
+      {/* three clouds stuck to the top (flipped 180°), raised high + tighter */}
+      <CloudStrip flip edge={-110} tight />
 
       <div className="relative z-10 flex flex-1 flex-col">
         {/* CTA headline — centered in the block */}
         <div className="container-page flex flex-1 items-center justify-center py-32 text-center">
           <Reveal>
             <h2 className="t-hero text-white">
-              Твоё <span className="t-hero-i">Пуиешествие</span>
+              Твоё <span className="t-hero-i">Путешествие</span>
               <br />
               начинается Здесь
             </h2>
@@ -140,7 +140,7 @@ export function SiteFooter() {
                   <li key={n}>
                     <a
                       href="#"
-                      className="font-serif text-[16px] text-white/85 transition-colors hover:text-white"
+                      className="link-underline inline-block font-serif text-[16px] text-white/85 transition-colors hover:text-white"
                     >
                       {n}
                     </a>
@@ -152,7 +152,7 @@ export function SiteFooter() {
                   <li key={c.label}>
                     <a
                       href={c.href}
-                      className="font-serif text-[16px] text-white/85 transition-colors hover:text-white"
+                      className="link-underline inline-block font-serif text-[16px] text-white/85 transition-colors hover:text-white"
                     >
                       {c.label}
                     </a>

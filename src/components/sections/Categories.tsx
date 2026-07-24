@@ -12,7 +12,10 @@ const PHOTOS = [
 
 function PhotoCard({ src }: { src: string }) {
   return (
-    <div className="group relative aspect-[3/5] w-[calc((100%-3rem)/3)] shrink-0 overflow-hidden rounded-[50%] transition-opacity duration-500">
+    <div
+      className="group relative aspect-[3/5] w-[calc((100%-3rem)/3)] shrink-0 overflow-hidden transition-opacity duration-500"
+      style={{ clipPath: "inset(0 round 50% / 30%)" }}
+    >
       <img
         src={src}
         alt="Соло-путешествие"

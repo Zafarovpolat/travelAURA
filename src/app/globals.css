@@ -305,15 +305,14 @@ html.lenis body {
 }
 
 /* expandable catalog cards */
-.exp-desc {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  transition: max-height 0.4s ease;
+.exp-full {
+  display: none;
 }
-[data-open="1"] .exp-desc {
-  -webkit-line-clamp: unset;
+[data-open="1"] .exp-full {
+  display: block;
+}
+[data-open="1"] .exp-short {
+  display: none;
 }
 
 /* =========================================================================

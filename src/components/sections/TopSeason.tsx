@@ -51,7 +51,7 @@ function Slide({
       />
       <div className="flex flex-1 flex-col p-6">
         <h3 className="t-h3 text-ink">{title}</h3>
-        <p className="t-body mt-3 text-gray">{desc}</p>
+        <p className="t-body mb-6 mt-3 text-gray">{desc}</p>
         <button className="mt-auto flex w-fit items-center gap-3 rounded-full bg-ink py-1.5 pl-6 pr-1.5 text-white transition-opacity hover:opacity-90">
           <span className="font-display text-[16px] font-medium">Подробнее</span>
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white">

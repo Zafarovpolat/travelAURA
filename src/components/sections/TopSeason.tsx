@@ -67,7 +67,7 @@ export function TopSeason() {
   return (
     <section
       id="season"
-      className="relative overflow-hidden pb-[580px] pt-24"
+      className="relative overflow-hidden pb-[440px] pt-24"
       style={{
         background:
           "linear-gradient(to bottom, #ffdfcd 0%, #ffdfcd 66%, #ffffff 92%)",

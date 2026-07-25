@@ -133,10 +133,10 @@ export function SiteFooter() {
       {/* smooth white blend at the very top — bridges the white/clouds of the
           previous block into the video so the transition is not abrupt */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-[240px]"
+        className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-[200px]"
         style={{
           background:
-            "linear-gradient(to bottom, #ffffff 0%, rgba(255,255,255,0.88) 26%, rgba(255,255,255,0.45) 58%, rgba(255,255,255,0) 100%)",
+            "linear-gradient(to bottom, #ffffff 0%, rgba(255,255,255,0.85) 15%, rgba(255,255,255,0.4) 38%, rgba(255,255,255,0) 72%)",
         }}
       />
       <div className="relative z-10 flex flex-1 flex-col">

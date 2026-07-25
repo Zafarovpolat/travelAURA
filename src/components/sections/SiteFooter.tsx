@@ -2,24 +2,20 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useRef } from "react";
 import { Reveal } from "./Reveal";
-import { CloudStrip } from "./Clouds";
 
-const VIDEO = "/videos/footer.mp4";
-const LOGO = "/images/LILzm3rkYRV49194JCrUDbwS5c.svg";
-const IG = "/images/70eRGKptiD5CD9gSJodYVqJchL0.svg";
-const X = "/images/Or88UMlQlmwZxGih5WX3ZguFzA.svg";
+const VIDEO = "/videos/footer.webm";
 
 const DESTS = [
   { label: "Япония", flag: "/images/uecbId5oKZ2rjlROouIcuGPtQ.svg" },
   { label: "Италия", flag: "/images/LSjPcu2bVLOoMazLpkIyd64CGo.png" },
-  { label: "Тайланд", flag: "/images/CBjPfi1BPLS1kbNisJuio7zLQY.png" },
+  { label: "Таиланд", flag: "/images/CBjPfi1BPLS1kbNisJuio7zLQY.png" },
 ];
 
 const NAV = ["Главная", "О себе", "Продукты", "Контакты"];
 const CONTACTS = [
-  { label: "+1 (303) 555 0198", href: "tel:+13035550198" },
-  { label: "Telegram: @username", href: "#" },
-  { label: "support@yourbrand.com", href: "mailto:support@yourbrand.com" },
+  { label: "Telegram", href: "https://t.me/victoria_kaylin" },
+  { label: "Instagram", href: "https://www.instagram.com/victoria__kaylin" },
+  { label: "YouTube", href: "https://youtube.com/@victoria_kaylin" },
 ];
 
 function DestPill({ label, flag }: { label: string; flag: string }) {
@@ -34,13 +30,41 @@ function DestPill({ label, flag }: { label: string; flag: string }) {
   );
 }
 
-function Social({ icon }: { icon: string }) {
+function TelegramIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="#1a1a17" aria-hidden="true">
+      <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71l-4.1-3.02-1.97 1.91c-.22.22-.4.4-.81.4z" />
+    </svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" stroke="#1a1a17" strokeWidth={2} aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="#1a1a17" stroke="none" />
+    </svg>
+  );
+}
+
+function YouTubeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="#1a1a17" aria-hidden="true">
+      <path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM9.8 15.3V8.7l6 3.3-6 3.3z" />
+    </svg>
+  );
+}
+
+function Social({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <a
-      href="#"
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       className="flex h-10 w-10 items-center justify-center rounded-full bg-white ring-1 ring-white/40 transition-transform hover:scale-105"
     >
-      <img src={icon} alt="" className="h-4 w-4" />
+      {children}
     </a>
   );
 }
@@ -106,26 +130,14 @@ export function SiteFooter() {
       {/* dark overlay over the video */}
       <div className="absolute inset-0 bg-black/30" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/25 to-black/70" />
-      {/* white gradient — top ~20% white, rest transparent (over photo+overlay, under clouds) */}
-      <div
-        className="pointer-events-none absolute inset-0 z-[5]"
-        style={{
-          background:
-            "linear-gradient(to bottom, #ffffff 0%, #ffffff 6%, rgba(255,255,255,0.5) 15%, rgba(255,255,255,0) 26%)",
-        }}
-      />
-
-      {/* three clouds stuck to the top (flipped 180°), raised high + tighter */}
-      <CloudStrip flip edge={-110} tight />
-
       <div className="relative z-10 flex flex-1 flex-col">
         {/* CTA headline — centered in the block */}
         <div className="container-page flex flex-1 items-center justify-center pb-28 pt-64 text-center">
           <Reveal>
             <h2 className="t-hero text-white">
-              Твоё <span className="t-hero-i">Путешествие</span>
+              Всё для поездки —
               <br />
-              начинается Здесь
+              <span className="t-hero-i">в одном месте</span>
             </h2>
           </Reveal>
         </div>
@@ -133,10 +145,9 @@ export function SiteFooter() {
         {/* footer content */}
         <div className="container-page pb-6">
           <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
-            {/* brand + destinations */}
+            {/* destinations */}
             <div>
-              <img src={LOGO} alt="travelAURA" className="h-12 w-auto" />
-              <div className="mt-6 flex flex-nowrap gap-3 overflow-x-auto md:overflow-visible">
+              <div className="flex flex-nowrap gap-3 overflow-x-auto md:overflow-visible">
                 {DESTS.map((d) => (
                   <DestPill key={d.label} {...d} />
                 ))}
@@ -162,6 +173,8 @@ export function SiteFooter() {
                   <li key={c.label}>
                     <a
                       href={c.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="link-underline inline-block font-serif italic text-[16px] text-white/85 transition-colors hover:text-white"
                     >
                       {c.label}
@@ -179,8 +192,15 @@ export function SiteFooter() {
                 2026 travelAURA. Все права защищены.
               </p>
               <div className="flex items-center gap-3">
-                <Social icon={IG} />
-                <Social icon={X} />
+                <Social href="https://t.me/victoria_kaylin">
+                  <TelegramIcon />
+                </Social>
+                <Social href="https://www.instagram.com/victoria__kaylin">
+                  <InstagramIcon />
+                </Social>
+                <Social href="https://youtube.com/@victoria_kaylin">
+                  <YouTubeIcon />
+                </Social>
               </div>
             </div>
           </div>

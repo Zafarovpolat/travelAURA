@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { Reveal } from "./Reveal";
 
-const ARROW = "/images/BbyPZY09N03enLhkU6HDikyBz0I.svg";
-
 const PHOTOS = [
   "/images/PZya8u3JHsscGvzhdNhi0nWpc.png",
   "/images/e4qmkfXyV6fkiMTY6XJzDwPQr4.png",
@@ -13,22 +11,15 @@ const PHOTOS = [
 function PhotoCard({ src }: { src: string }) {
   return (
     <div
-      className="group relative aspect-[5/7] w-[calc((100%-3rem)/3)] shrink-0 overflow-hidden transition-opacity duration-500"
+      className="relative aspect-[5/7] w-[calc((100%-3rem)/3)] shrink-0 overflow-hidden"
       style={{ clipPath: "inset(0 round 50% / 36%)" }}
     >
       <img
         src={src}
-        alt="Соло-путешествие"
-        className="h-full w-full object-cover transition duration-500 group-hover:scale-105 group-hover:blur-[3px]"
+        alt="Соло путешествие"
+        className="h-full w-full select-none object-cover"
         draggable={false}
       />
-      {/* whitish light on hover */}
-      <span className="pointer-events-none absolute inset-0 bg-white/25 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-      <span className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_8px_24px_rgba(0,0,0,0.18)]">
-          <img src={ARROW} alt="" className="h-5 w-5" />
-        </span>
-      </span>
     </div>
   );
 }
@@ -36,16 +27,36 @@ function PhotoCard({ src }: { src: string }) {
 export function Categories() {
   return (
     <section id="about" className="relative bg-white pb-24 pt-28">
+      {/* decorative travel stamps */}
+      <img
+        src="/images/1exwTE2Y0Xf60mnDtG638CmG8I.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute left-6 top-28 hidden w-24 -rotate-12 select-none xl:block"
+      />
+      <img
+        src="/images/619b3KdOinvkQ74s5Mg2BjtTGY8.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute right-10 top-40 hidden w-16 select-none xl:block"
+      />
+      <img
+        src="/images/TB7orCkX60THTA0oHNiKWm8zmg.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-16 right-8 hidden w-28 rotate-6 select-none xl:block"
+      />
       <div className="container-page">
         <Reveal className="mx-auto max-w-[960px] text-center">
           <h2 className="t-h2">
-            4 года <span className="t-h2-i">Соло-Путешествий</span>
+            4 года <span className="t-h2-i">Соло Путешествий</span>
             <br />
             17 стран
           </h2>
-          <p className="t-body mx-auto mt-6 max-w-[430px] text-center text-gray">
-            Составила личные наработки, с которыми тебе больше не понадобится
-            изучать ничего дополнительно
+          <p className="t-body mx-auto mt-6 max-w-[600px] text-center text-gray">
+            За 4 года соло путешествий и 17 стран я успела тыщу раз переплатить,
+            заблудиться в местном транспорте, путешествовать не так комфортно, как
+            можно было бы. Теперь тебе не придётся с этим столкнуться.
           </p>
         </Reveal>
       </div>

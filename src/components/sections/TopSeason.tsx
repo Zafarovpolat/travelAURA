@@ -17,11 +17,6 @@ const SLIDES = [
     title: "Италия: Рим, Флоренция и Венеция",
     desc: "Практичный гид по Италии: города, маршруты, транспорт, бюджет, язык и идеи для насыщенной поездки",
   },
-  {
-    img: "/images/LGj6z4TDM3zL3Uv8ViTYEB4rUY.png",
-    title: "Япония: Токио, Киото и Осака",
-    desc: "Города, маршруты, транспорт и бюджет для самостоятельной поездки по Японии",
-  },
 ];
 
 function NavArrow({ icon, dir }: { icon: string; dir: "prev" | "next" }) {
@@ -104,6 +99,14 @@ export function TopSeason() {
           <NavArrow icon={ARROW_RIGHT} dir="next" />
         </Reveal>
       </div>
+
+      {/* decorative sticker */}
+      <img
+        src="/images/ItLtNQTx2gNR3XQv8S3RluU6ph0.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute left-8 top-16 hidden w-28 -rotate-6 select-none xl:block"
+      />
 
       {/* three clouds stuck to the bottom (dropped lower) */}
       <CloudStrip edge={-90} />

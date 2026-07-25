@@ -1,5 +1,6 @@
 import { SmoothScroll } from "@/components/sections/SmoothScroll";
 import { CarouselInit } from "@/components/sections/CarouselInit";
+import { ExpandInit } from "@/components/sections/ExpandInit";
 import { SiteNav } from "@/components/sections/SiteNav";
 import { Hero } from "@/components/sections/Hero";
 import { Categories } from "@/components/sections/Categories";
@@ -13,6 +14,7 @@ export default function Home() {
     <>
       <SmoothScroll />
       <CarouselInit />
+      <ExpandInit />
       <SiteNav />
       <main>
         <Hero />

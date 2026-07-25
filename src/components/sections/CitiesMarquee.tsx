@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 
 const ITEMS = [
-  { label: "Общая база знаний", flag: "/images/KLKhMlGmofwPpnyHbHOtSBzoEw.svg" },
   { label: "Италия", flag: "/images/cujjMXLnRh0ubB7Y9PHKkqUqHng.png" },
-  { label: "Тайланд", flag: "/images/MRnUANnt1GkkM6MXqkEUxrts.png" },
+  { label: "Япония", flag: "/images/uecbId5oKZ2rjlROouIcuGPtQ.svg" },
+  { label: "Таиланд", flag: "/images/MRnUANnt1GkkM6MXqkEUxrts.png" },
 ];
 
 function Row() {
@@ -15,7 +15,7 @@ function Row() {
           <img
             src={it.flag}
             alt=""
-            className="h-[56px] w-auto shrink-0 scale-[2]"
+            className="h-[64px] w-auto shrink-0 scale-[2.4]"
             draggable={false}
           />
         </div>

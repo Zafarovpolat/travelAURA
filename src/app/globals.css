@@ -304,6 +304,18 @@ html.lenis body {
   transform: translateY(-3px) scale(1.03);
 }
 
+/* expandable catalog cards */
+.exp-desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+[data-open="1"] .exp-desc {
+  -webkit-line-clamp: unset;
+}
+
 /* =========================================================================
    Responsive type scaling (Framer tablet / mobile breakpoints)
    ========================================================================= */

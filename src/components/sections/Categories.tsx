@@ -2,10 +2,13 @@
 import { Reveal } from "./Reveal";
 
 const PHOTOS = [
-  "/images/PZya8u3JHsscGvzhdNhi0nWpc.png",
-  "/images/e4qmkfXyV6fkiMTY6XJzDwPQr4.png",
-  "/images/aSZ4pclaWJ4D6Qm6UPcMQdC9A.png",
-  "/images/J1TPOL7ClpOGXZwPGZA5nnE6oY.png",
+  "/images/me-1.jpg",
+  "/images/me-2.jpg",
+  "/images/me-3.jpg",
+  "/images/me-4.jpg",
+  "/images/me-5.jpg",
+  "/images/me-6.jpg",
+  "/images/me-7.jpg",
 ];
 
 function PhotoCard({ src }: { src: string }) {

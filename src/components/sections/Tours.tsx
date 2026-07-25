@@ -10,7 +10,7 @@ type Guide = {
 
 const GUIDES: Guide[] = [
   {
-    img: "/images/GJJb8Uv9Akr2qx0xpfl7zQqPRM.png",
+    img: "/images/prod-italy.jpg",
     title: "Италия: Рим, Флоренция и Венеция",
     desc: "Практичный гид по Италии: города, маршруты, транспорт, бюджет, язык и идеи для насыщенной поездки.",
   },
@@ -21,7 +21,7 @@ const GUIDES: Guide[] = [
     soon: true,
   },
   {
-    img: "/images/WCUZeyJNvc6yYkaSy2ZbBATFmMo.png",
+    img: "/images/prod-thailand.jpg",
     title: "Таиланд: Бангкок, Пхукет и Панган",
     desc: "Пляжи, острова, маршруты, транспорт и бюджет для комфортного путешествия по Таиланду.",
     soon: true,

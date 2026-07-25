@@ -8,12 +8,12 @@ const ARROW_RIGHT = "/images/ujDHATQhQaeDKRnUwXqlIRn8.svg";
 
 const SLIDES = [
   {
-    img: "/images/KCzaP2wFXirf4rM05DaNs7YhEg.png",
+    img: "/images/prod-general.jpg",
     title: "Общая база знаний",
     desc: "Все лайфхаки для путешествий в одном месте — от бронирования до легального дохода за границей",
   },
   {
-    img: "/images/GJJb8Uv9Akr2qx0xpfl7zQqPRM.png",
+    img: "/images/prod-italy.jpg",
     title: "Италия: Рим, Флоренция и Венеция",
     desc: "Практичный гид по Италии: города, маршруты, транспорт, бюджет, язык и идеи для насыщенной поездки",
   },

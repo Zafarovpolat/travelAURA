@@ -33,15 +33,15 @@ export function Hero() {
         data-parallax="hero"
         src={HERO_SCENE}
         alt="Путешественница на земном шаре среди облаков"
-        className="relative z-0 block w-full origin-top select-none will-change-transform"
+        className="relative z-[-10] block w-full origin-top select-none will-change-transform"
         draggable={false}
       />
 
       {/* subtle dark overlay (helps title/subtitle readability over clouds) */}
-      <div className="pointer-events-none absolute inset-0 z-[3] bg-black/25" />
+      <div className="pointer-events-none absolute inset-0 z-[3] transform-gpu bg-black/25" />
 
       {/* Title */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex h-[88svh] flex-col items-center justify-center px-5 text-center">
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex h-[88svh] transform-gpu flex-col items-center justify-center px-5 text-center">
         <h1 className="t-hero text-white">travelAURA</h1>
         <p className="mt-2 font-display text-[26px] font-semibold text-white sm:text-[32px]">
           Путешествуй, а не гугли

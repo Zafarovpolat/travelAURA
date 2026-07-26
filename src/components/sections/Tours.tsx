@@ -100,7 +100,7 @@ function GuideCard({ img, title, teaser, full, soon }: Guide) {
   return (
     <div
       data-expand
-      className="group relative flex cursor-pointer flex-col overflow-hidden rounded-[20px] bg-[#f2f2f0]"
+      className="group relative flex w-full shrink-0 cursor-pointer flex-col overflow-hidden rounded-[20px] bg-[#f2f2f0] sm:w-[calc((100%-1.5rem)/2)] xl:w-[calc((100%-3rem)/3)]"
     >
       <div className="relative">
         <img
@@ -167,11 +167,35 @@ export function Tours() {
         </Reveal>
       </div>
 
-      <Reveal delay={80} className="mx-auto mt-12 grid max-w-[1200px] grid-cols-1 gap-6 px-10 sm:grid-cols-2 xl:grid-cols-4">
-        {GUIDES.map((g, i) => (
-          <GuideCard key={i} {...g} />
-        ))}
+      <Reveal delay={80} className="mx-auto mt-12 max-w-[1200px] px-10">
+        <div data-slider="tours" data-loop="" className="overflow-hidden">
+          <div className="flex items-start gap-6">
+            {GUIDES.map((g, i) => (
+              <GuideCard key={i} {...g} />
+            ))}
+          </div>
+        </div>
       </Reveal>
+
+      {/* pagination dots */}
+      <div className="mt-10 flex justify-center">
+        <div
+          data-dots="tours"
+          className="inline-flex items-center gap-2 rounded-full bg-ink/10 px-3 py-2"
+        >
+          {GUIDES.map((_, i) => (
+            <span
+              key={i}
+              data-dot=""
+              className="dot h-2 rounded-full"
+              style={{
+                width: i === 0 ? 24 : 8,
+                background: i === 0 ? "#1a1a17" : "rgba(26,26,23,0.3)",
+              }}
+            />
+          ))}
+        </div>
+      </div>
 
       {/* decorative travel stamps */}
       <img

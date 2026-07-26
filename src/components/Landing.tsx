@@ -2,6 +2,7 @@ import { SmoothScroll } from "@/components/sections/SmoothScroll";
 import { CarouselInit } from "@/components/sections/CarouselInit";
 import { ExpandInit } from "@/components/sections/ExpandInit";
 import { ContentOverrides } from "@/components/admin/ContentOverrides";
+import { TimerInit } from "@/components/sections/TimerInit";
 import { SiteNav } from "@/components/sections/SiteNav";
 import { Hero } from "@/components/sections/Hero";
 import { Categories } from "@/components/sections/Categories";
@@ -19,6 +20,7 @@ export function Landing({ admin = false }: { admin?: boolean }) {
   return (
     <>
       <ContentOverrides />
+      <TimerInit />
       <SmoothScroll />
       <CarouselInit disabled={admin} />
       <ExpandInit disabled={admin} />

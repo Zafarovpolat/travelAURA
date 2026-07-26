@@ -109,7 +109,7 @@ function GuideCard({ img, title, teaser, full, soon }: Guide) {
           className="aspect-square w-full select-none object-cover"
           draggable={false}
         />
-        <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-[#0099ff] px-2.5 py-1 text-white shadow-[0_4px_14px_rgba(0,0,0,0.22)]">
+        <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-ink/85 px-2.5 py-1 text-white shadow-[0_4px_14px_rgba(0,0,0,0.28)] backdrop-blur-sm">
           <span className="font-display text-[12px] font-bold">−50%</span>
           <span className="font-display text-[12px] font-semibold tabular-nums">
             <DiscountTimer />

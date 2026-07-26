@@ -27,7 +27,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section id="top" className="relative w-full overflow-hidden bg-[#4d97d4]">
+    <section id="top" className="relative isolate w-full overflow-hidden bg-[#4d97d4]">
       <img
         ref={imgRef}
         data-parallax="hero"

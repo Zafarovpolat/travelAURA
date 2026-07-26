@@ -6,8 +6,9 @@ import { useEffect } from "react";
  * Expandable catalog cards. Click a [data-expand] card (or its
  * [data-expand-btn]) to toggle data-open, revealing the full description.
  */
-export function ExpandInit() {
+export function ExpandInit({ disabled = false }: { disabled?: boolean }) {
   useEffect(() => {
+    if (disabled) return;
     const onClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const card = target.closest<HTMLElement>("[data-expand]");
@@ -19,7 +20,7 @@ export function ExpandInit() {
     };
     document.addEventListener("click", onClick);
     return () => document.removeEventListener("click", onClick);
-  }, []);
+  }, [disabled]);
 
   return null;
 }

@@ -1,0 +1,84 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+/**
+ * Shared editable-content helpers for the inline /admin editor.
+ *
+ * Every editable element on the landing is auto-tagged at runtime with a
+ * stable `data-edit="ed-<n>"` id (assigned in DOM order, clones excluded) plus
+ * a `data-edit-kind` (text | image | video | link). Overrides are keyed by that
+ * id and persisted in localStorage, so the public page and the editor stay in
+ * sync inside the same browser.
+ */
+
+export const STORE_KEY = "ta_admin_content";
+
+export function assignEditIds(): void {
+  if (typeof document === "undefined") return;
+  if (document.querySelector("[data-edit]")) return; // idempotent
+
+  const nodes = Array.from(
+    document.querySelectorAll("h1,h2,h3,h4,p,li,a,img,video"),
+  );
+  let i = 0;
+  for (const el of nodes) {
+    if (el.closest("[data-clone]")) continue;
+    if (el.closest(".ta-adminbar") || el.closest(".ta-modal-bg")) continue;
+    if (el.hasAttribute("data-countdown") || el.querySelector("[data-countdown]"))
+      continue;
+
+    const tag = el.tagName;
+    const isMedia = tag === "IMG" || tag === "VIDEO";
+    const isLink = tag === "A";
+
+    if (!isMedia && !isLink) {
+      const txt = el.textContent ? el.textContent.trim() : "";
+      if (!txt) continue;
+      // only tag leaf text blocks (avoid tagging containers that hold other taggables)
+      if (el.querySelector("h1,h2,h3,h4,p,li,a,img,video")) continue;
+    }
+
+    el.setAttribute("data-edit", "ed-" + i);
+    el.setAttribute(
+      "data-edit-kind",
+      tag === "IMG" ? "image" : tag === "VIDEO" ? "video" : isLink ? "link" : "text",
+    );
+    i++;
+  }
+}
+
+export function readStore(): Record<string, any> {
+  if (typeof localStorage === "undefined") return {};
+  try {
+    return JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+export function applyStore(store: Record<string, any>): void {
+  if (typeof document === "undefined") return;
+  for (const [id, val] of Object.entries(store)) {
+    if (!val) continue;
+    const sel = `[data-edit="${id}"]`;
+    document.querySelectorAll(sel).forEach((el) => {
+      const tag = el.tagName;
+      if (tag === "IMG") {
+        if (val.src) (el as HTMLImageElement).src = val.src;
+      } else if (tag === "VIDEO") {
+        if (val.src) {
+          (el as HTMLVideoElement).src = val.src;
+          try {
+            (el as HTMLVideoElement).load();
+          } catch {
+            /* noop */
+          }
+        }
+      } else if (tag === "A") {
+        if (val.html != null) el.innerHTML = val.html;
+        if (val.href != null) (el as HTMLAnchorElement).setAttribute("href", val.href);
+      } else {
+        if (val.html != null) el.innerHTML = val.html;
+      }
+    });
+  }
+}

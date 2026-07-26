@@ -10,8 +10,9 @@ import { useEffect } from "react";
  *  [data-dots="key"]>[data-dot] pagination · [data-arrow="prev|next"][data-ref="key"] arrows
  * Navigation via autoplay / arrows / dots only (no manual drag).
  */
-export function CarouselInit() {
+export function CarouselInit({ disabled = false }: { disabled?: boolean }) {
   useEffect(() => {
+    if (disabled) return;
     const cleanups: Array<() => void> = [];
 
     document.querySelectorAll<HTMLElement>("[data-slider]").forEach((wrap) => {
@@ -123,7 +124,7 @@ export function CarouselInit() {
     });
 
     return () => cleanups.forEach((c) => c());
-  }, []);
+  }, [disabled]);
 
   return null;
 }

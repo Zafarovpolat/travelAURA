@@ -1,47 +1,28 @@
-"use client";
 /* eslint-disable @next/next/no-img-element */
-import { useEffect, useRef } from "react";
 import { CloudStrip } from "./Clouds";
 
 const HERO_SCENE = "/images/y5kNLcucXyFTEZUkN3LiWWQFzL8.png";
 
+/**
+ * Hero. The scene photo is a plain STATIC background layer at z-index:-10 inside
+ * an isolated stacking context — no transform / will-change, so it can never be
+ * composited above the title/nav in any browser. Content sits on z-index 3-10.
+ */
 export function Hero() {
-  const imgRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    let raf = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        const y = window.scrollY > 0 ? window.scrollY : 0;
-        const el = imgRef.current;
-        if (el) el.style.transform = `translate3d(0, ${y * 0.28}px, 0)`;
-      });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
   return (
     <section id="top" className="relative isolate w-full overflow-hidden bg-[#4d97d4]">
       <img
-        ref={imgRef}
-        data-parallax="hero"
         src={HERO_SCENE}
         alt="Путешественница на земном шаре среди облаков"
-        className="relative z-[-10] block w-full origin-top select-none will-change-transform"
+        className="relative z-[-10] block w-full origin-top select-none"
         draggable={false}
       />
 
       {/* subtle dark overlay (helps title/subtitle readability over clouds) */}
-      <div className="pointer-events-none absolute inset-0 z-[3] transform-gpu bg-black/25" />
+      <div className="pointer-events-none absolute inset-0 z-[3] bg-black/25" />
 
       {/* Title */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex h-[88svh] transform-gpu flex-col items-center justify-center px-5 text-center">
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex h-[88svh] flex-col items-center justify-center px-5 text-center">
         <h1 className="t-hero text-white">travelAURA</h1>
         <p className="mt-2 font-display text-[26px] font-semibold text-white sm:text-[32px]">
           Путешествуй, а не гугли

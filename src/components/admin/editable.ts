@@ -44,6 +44,19 @@ export function assignEditIds(): void {
     );
     i++;
   }
+
+  // second pass: leaf <span> text (e.g. "Подробнее", "50%", "Скоро", labels)
+  document.querySelectorAll("span").forEach((el) => {
+    if (el.closest("[data-edit]")) return;
+    if (el.closest("[data-clone]") || el.closest(".ta-adminbar")) return;
+    if (el.hasAttribute("data-countdown") || el.querySelector("[data-countdown]")) return;
+    if (el.querySelector("*")) return; // leaf only
+    const txt = el.textContent ? el.textContent.trim() : "";
+    if (!txt) return;
+    el.setAttribute("data-edit", "ed-" + i);
+    el.setAttribute("data-edit-kind", "text");
+    i++;
+  });
 }
 
 export function readStore(): Record<string, any> {

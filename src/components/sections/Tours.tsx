@@ -109,6 +109,12 @@ function GuideCard({ img, title, teaser, full, soon }: Guide) {
           className="aspect-square w-full select-none object-cover"
           draggable={false}
         />
+        <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-[#0099ff] px-2.5 py-1 text-white shadow-[0_4px_14px_rgba(0,0,0,0.22)]">
+          <span className="font-display text-[12px] font-bold">−50%</span>
+          <span className="font-display text-[12px] font-semibold tabular-nums">
+            <DiscountTimer />
+          </span>
+        </span>
         {soon && (
           <span className="t-label absolute bottom-3 left-3 rounded-full bg-ink px-3 py-1 text-white">
             Скоро
@@ -158,22 +164,6 @@ export function Tours() {
             поможет вам сэкономить десятки, а то и сотни тысяч рублей и кучу
             времени в путешествиях.
           </p>
-        </Reveal>
-
-        {/* 50% discount + countdown for new visitors */}
-        <Reveal delay={60} className="mt-8 flex justify-center">
-          <div className="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 rounded-full bg-ink px-6 py-3 text-white shadow-[0_8px_24px_rgba(26,26,23,0.18)]">
-            <span className="font-display text-[15px] font-semibold">
-              −50% на все продукты
-            </span>
-            <span className="hidden h-4 w-px bg-white/30 sm:block" />
-            <span className="font-stack text-[14px] text-white/85">
-              только для новых — осталось{" "}
-              <span className="font-display font-semibold text-white">
-                <DiscountTimer />
-              </span>
-            </span>
-          </div>
         </Reveal>
       </div>
 

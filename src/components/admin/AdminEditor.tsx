@@ -22,14 +22,18 @@ export function AdminEditor() {
     style.textContent = `
       html[data-admin] .exp-full{ display:block !important; }
       html[data-admin] .exp-short{ display:block !important; }
-      [data-edit]{ outline:1px dashed rgba(0,153,255,.5); outline-offset:2px; border-radius:2px; }
+      html[data-admin] .pill-hover:hover, html[data-admin] .dot:hover, html[data-admin] [class*="hover:scale"]:hover, html[data-admin] .group:hover [class*="group-hover"]{ transform:none !important; }
+      [data-edit]{ box-shadow: inset 0 0 0 1px rgba(0,153,255,.4); }
       [data-edit-kind="image"],[data-edit-kind="video"],[data-edit-kind="link"]{ cursor:pointer; }
       [data-edit-kind="text"]{ cursor:text; }
-      [data-edit]:hover{ outline:2px solid #0099ff; background:rgba(0,153,255,.05); }
-      [data-edit][contenteditable]:focus{ outline:2px solid #0099ff; }
-      .ta-adminbar{ position:fixed; top:14px; right:14px; z-index:2147483000; display:flex; gap:8px; align-items:center;
-        background:#111; color:#fff; padding:9px 11px; border-radius:12px;
-        font:600 13px/1.1 Inter,system-ui,sans-serif; box-shadow:0 10px 34px rgba(0,0,0,.4); }
+      [data-edit]:hover{ box-shadow: inset 0 0 0 2px #0099ff; }
+      [data-edit][contenteditable]:focus{ box-shadow: inset 0 0 0 2px #0099ff; }
+      .ta-adminbar{ position:fixed; bottom:16px; left:50%; transform:translateX(-50%) scale(.9); transform-origin:bottom center;
+        z-index:2147483000; display:flex; gap:8px; align-items:center; opacity:.4;
+        background:#111; color:#fff; padding:9px 12px; border-radius:14px;
+        font:600 13px/1.1 Inter,system-ui,sans-serif; box-shadow:0 10px 34px rgba(0,0,0,.4);
+        transition:opacity .3s ease, transform .3s ease; }
+      .ta-adminbar:hover{ opacity:1; transform:translateX(-50%) scale(1); }
       .ta-adminbar .dot{ width:9px; height:9px; border-radius:50%; background:#3ad07a; }
       .ta-adminbar button{ background:#0099ff; color:#fff; border:0; border-radius:8px; padding:8px 12px; cursor:pointer; font:inherit; }
       .ta-adminbar button.ghost{ background:#333; }
@@ -58,10 +62,7 @@ export function AdminEditor() {
     bar.innerHTML =
       '<span class="dot"></span><span style="margin-right:4px">Редактирование</span>' +
       '<button data-a="save">Сохранить</button>' +
-      '<button class="ghost" data-a="export">Экспорт</button>' +
-      '<button class="ghost" data-a="import">Импорт</button>' +
-      '<button class="ghost" data-a="reset">Сбросить</button>' +
-      '<button class="ghost" data-a="exit">На сайт →</button>';
+      '<button class="ghost" data-a="reset">Сбросить</button>';
     document.body.appendChild(bar);
     const dot = bar.querySelector(".dot") as HTMLElement;
     const setDirty = (d: boolean) => {

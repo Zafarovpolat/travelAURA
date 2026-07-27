@@ -57,6 +57,16 @@ export function assignEditIds(): void {
     el.setAttribute("data-edit-kind", "text");
     i++;
   });
+
+  // hero photo is a CSS background — tag the section so it can be re-uploaded
+  const heroSec = document.querySelector("#top");
+  if (heroSec && !heroSec.hasAttribute("data-edit")) {
+    const bi = getComputedStyle(heroSec).backgroundImage;
+    if (bi && bi !== "none") {
+      heroSec.setAttribute("data-edit", "ed-hero-bg");
+      heroSec.setAttribute("data-edit-kind", "bg");
+    }
+  }
 }
 
 export function readStore(): Record<string, any> {
@@ -74,6 +84,10 @@ export function applyStore(store: Record<string, any>): void {
     if (!val) continue;
     const sel = `[data-edit="${id}"]`;
     document.querySelectorAll(sel).forEach((el) => {
+      if (val.bg) {
+        (el as HTMLElement).style.backgroundImage = `url(${val.bg})`;
+        return;
+      }
       const tag = el.tagName;
       if (tag === "IMG") {
         if (val.src) (el as HTMLImageElement).src = val.src;

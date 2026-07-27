@@ -27,7 +27,7 @@ export function AdminEditor() {
       html[data-admin] [data-slider] > *{ flex-wrap:wrap !important; justify-content:center; row-gap:1.5rem; }
       html[data-admin] .pill-hover:hover, html[data-admin] .dot:hover, html[data-admin] [class*="hover:scale"]:hover, html[data-admin] .group:hover [class*="group-hover"]{ transform:none !important; }
       [data-edit]{ box-shadow: inset 0 0 0 1px rgba(0,153,255,.4); }
-      [data-edit-kind="image"],[data-edit-kind="video"],[data-edit-kind="link"]{ cursor:pointer; }
+      [data-edit-kind="image"],[data-edit-kind="video"],[data-edit-kind="link"],[data-edit-kind="bg"]{ cursor:pointer; }
       [data-edit-kind="text"]{ cursor:text; }
       [data-edit]:hover{ box-shadow: inset 0 0 0 2px #0099ff; }
       [data-edit][contenteditable]:focus{ box-shadow: inset 0 0 0 2px #0099ff; }
@@ -116,15 +116,19 @@ export function AdminEditor() {
       return { bg, close };
     };
 
-    const openMedia = (el: HTMLElement, isImg: boolean) => {
-      const cur = el.getAttribute("src") || "";
+    const openMedia = (el: HTMLElement, mode: "image" | "video" | "bg") => {
+      const isImg = mode === "image";
+      const isBg = mode === "bg";
+      const cur = isBg
+        ? getComputedStyle(el).backgroundImage.match(/url\(["']?([^"')]+)["']?\)/)?.[1] || ""
+        : el.getAttribute("src") || "";
       const { bg, close } = makeModal(
-        `<h3>${isImg ? "Изображение" : "Видео"}</h3>` +
+        `<h3>${isImg ? "Изображение" : isBg ? "Фоновое фото" : "Видео"}</h3>` +
           `<label>Ссылка (URL)</label>` +
           `<input type="text" class="url" value="${esc(cur)}" placeholder="https://… или /images/…">` +
-          (isImg
-            ? `<label>или загрузить файл с устройства</label><input type="file" class="file" accept="image/*">`
-            : `<label>или загрузить файл (mp4 / webm)</label><input type="file" class="file" accept="video/*">`) +
+          (mode === "video"
+            ? `<label>или загрузить файл (mp4 / webm)</label><input type="file" class="file" accept="video/*">`
+            : `<label>или загрузить файл с устройства</label><input type="file" class="file" accept="image/*">`) +
           `<div class="row"><button class="cancel">Отмена</button><button class="ok">Применить</button></div>`,
       );
       const urlI = bg.querySelector(".url") as HTMLInputElement;
@@ -142,16 +146,21 @@ export function AdminEditor() {
         const src = urlI.value.trim();
         if (!src) return;
         const id = el.getAttribute("data-edit");
-        if (isImg) (el as HTMLImageElement).src = src;
-        else {
+        if (isBg) {
+          el.style.backgroundImage = `url(${src})`;
+          if (id) store[id] = { bg: src };
+        } else if (isImg) {
+          (el as HTMLImageElement).src = src;
+          if (id) store[id] = { src };
+        } else {
           (el as HTMLVideoElement).src = src;
           try {
             (el as HTMLVideoElement).load();
           } catch {
             /* noop */
           }
+          if (id) store[id] = { src };
         }
-        if (id) store[id] = { src };
         setDirty(true);
         close();
       });
@@ -191,10 +200,10 @@ export function AdminEditor() {
       const el = t.closest("[data-edit]") as HTMLElement | null;
       if (el) {
         const kind = el.getAttribute("data-edit-kind");
-        if (kind === "image" || kind === "video") {
+        if (kind === "image" || kind === "video" || kind === "bg") {
           e.preventDefault();
           e.stopPropagation();
-          openMedia(el, kind === "image");
+          openMedia(el, kind as "image" | "video" | "bg");
           return;
         }
         if (kind === "link") {

@@ -21,11 +21,11 @@ export function Hero() {
 
       {/* title — centered in the first screen (content always above a CSS bg) */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex h-[100svh] flex-col items-center justify-center px-5 text-center">
-        <h1 className="t-hero text-white">travelAURA</h1>
-        <p className="mt-2 font-display text-[26px] font-semibold text-white sm:text-[32px]">
+        <h1 className="pointer-events-auto t-hero text-white">travelAURA</h1>
+        <p className="pointer-events-auto mt-2 font-display text-[26px] font-semibold text-white sm:text-[32px]">
           Путешествуй, а не гугли
         </p>
-        <p className="mt-5 max-w-[560px] font-stack text-[16px] leading-relaxed text-white/90 sm:text-[18px]">
+        <p className="pointer-events-auto mt-5 max-w-[560px] font-stack text-[16px] leading-relaxed text-white/90 sm:text-[18px]">
           Всё, что нужно знать о стране: где дешевле, что бронировать и как не
           нарваться на дорогой проёб.
         </p>

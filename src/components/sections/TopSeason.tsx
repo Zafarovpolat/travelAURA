@@ -8,11 +8,6 @@ const ARROW_RIGHT = "/images/ujDHATQhQaeDKRnUwXqlIRn8.svg";
 
 const SLIDES = [
   {
-    img: "/images/prod-general.jpg",
-    title: "Общая база знаний",
-    desc: "Все лайфхаки для путешествий в одном месте — от бронирования до легального дохода за границей",
-  },
-  {
     img: "/images/prod-italy.jpg",
     title: "Италия: Рим, Флоренция и Венеция",
     desc: "Практичный гид по Италии: города, маршруты, транспорт, бюджет, язык и идеи для насыщенной поездки",
@@ -83,7 +78,7 @@ export function TopSeason() {
         </Reveal>
 
         <Reveal delay={100} className="mt-14 flex items-center justify-center gap-6">
-          <NavArrow icon={ARROW_LEFT} dir="prev" />
+          {SLIDES.length > 1 && <NavArrow icon={ARROW_LEFT} dir="prev" />}
           <div
             data-slider="season"
             data-loop=""
@@ -96,7 +91,7 @@ export function TopSeason() {
               ))}
             </div>
           </div>
-          <NavArrow icon={ARROW_RIGHT} dir="next" />
+          {SLIDES.length > 1 && <NavArrow icon={ARROW_RIGHT} dir="next" />}
         </Reveal>
       </div>
 

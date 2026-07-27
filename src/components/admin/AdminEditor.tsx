@@ -25,6 +25,8 @@ export function AdminEditor() {
       /* in admin, unfreeze sliders so every slide is visible & editable */
       html[data-admin] [data-slider]{ overflow:visible !important; }
       html[data-admin] [data-slider] > *{ flex-wrap:wrap !important; justify-content:center; row-gap:1.5rem; }
+      /* make every editable clickable in admin even inside pointer-events:none layers */
+      html[data-admin] [data-edit]{ pointer-events:auto !important; }
       html[data-admin] .pill-hover:hover, html[data-admin] .dot:hover, html[data-admin] [class*="hover:scale"]:hover, html[data-admin] .group:hover [class*="group-hover"]{ transform:none !important; }
       [data-edit]{ box-shadow: inset 0 0 0 1px rgba(0,153,255,.4); }
       [data-edit-kind="image"],[data-edit-kind="video"],[data-edit-kind="link"],[data-edit-kind="bg"]{ cursor:pointer; }

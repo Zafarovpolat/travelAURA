@@ -48,7 +48,7 @@ export function Hero() {
           data-parallax="hero"
           src={HERO_SCENE}
           alt="Путешественница на земном шаре среди облаков"
-          className="absolute inset-x-0 top-[-15%] h-[130%] w-full select-none object-cover object-[center_28%] will-change-transform"
+          className="absolute inset-x-0 top-[-35%] h-[155%] w-full select-none object-cover object-[center_28%] will-change-transform"
           draggable={false}
         />
       </div>

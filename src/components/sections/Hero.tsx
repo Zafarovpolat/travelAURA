@@ -39,7 +39,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative isolate min-h-[180svh] w-full overflow-hidden bg-[#4d97d4]"
+      className="relative isolate min-h-[100svh] w-full overflow-hidden bg-[#4d97d4]"
     >
       {/* background layer — own stacking context pinned below content */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
@@ -48,7 +48,7 @@ export function Hero() {
           data-parallax="hero"
           src={HERO_SCENE}
           alt="Путешественница на земном шаре среди облаков"
-          className="absolute inset-x-0 top-[-40%] h-[155%] w-full select-none object-cover object-[center_28%] will-change-transform"
+          className="absolute inset-x-0 top-[-35%] h-[155%] w-full select-none object-cover object-[center_28%] will-change-transform"
           draggable={false}
         />
       </div>

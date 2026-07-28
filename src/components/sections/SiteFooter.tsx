@@ -130,15 +130,6 @@ export function SiteFooter() {
       {/* dark overlay over the video */}
       <div className="absolute inset-0 bg-black/30" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/25 to-black/70" />
-      {/* smooth white blend at the very top — bridges the white/clouds of the
-          previous block into the video so the transition is not abrupt */}
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-[200px]"
-        style={{
-          background:
-            "linear-gradient(to bottom, #ffffff 0%, rgba(255,255,255,0.85) 15%, rgba(255,255,255,0.4) 38%, rgba(255,255,255,0) 72%)",
-        }}
-      />
       <div className="relative z-10 flex flex-1 flex-col">
         {/* CTA headline — centered in the block */}
         <div className="container-page flex flex-1 items-center justify-center pb-28 pt-64 text-center">

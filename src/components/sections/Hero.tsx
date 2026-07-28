@@ -73,7 +73,7 @@ export function Hero() {
 
       {/* fade to white + clouds at the bottom */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[4] h-[16%] bg-gradient-to-b from-transparent to-white" />
-      <CloudStrip edge={-140} />
+      <CloudStrip edge={-420} />
     </section>
   );
 }

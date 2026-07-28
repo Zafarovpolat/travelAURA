@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import { Reveal } from "./Reveal";
-import { CloudStrip } from "./Clouds";
 
 const ARROW_UP_RIGHT = "/images/BbyPZY09N03enLhkU6HDikyBz0I.svg";
 const ARROW_LEFT = "/images/EuCRBEy3WmP3TOPcFR80q5d18NM.svg";
@@ -67,7 +66,7 @@ export function TopSeason() {
   return (
     <section
       id="season"
-      className="relative overflow-hidden pb-[440px] pt-24"
+      className="relative overflow-hidden pb-[200px] pt-24"
       style={{
         background:
           "linear-gradient(to bottom, #ffdfcd 0%, #ffdfcd 66%, #ffffff 92%)",
@@ -107,9 +106,6 @@ export function TopSeason() {
         aria-hidden="true"
         className="pointer-events-none absolute left-8 top-16 hidden w-28 -rotate-6 select-none xl:block"
       />
-
-      {/* three clouds stuck to the bottom (dropped lower) */}
-      <CloudStrip edge={-90} />
     </section>
   );
 }

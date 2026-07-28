@@ -60,13 +60,6 @@ const GUIDES: Guide[] = [
     ),
   },
   {
-    img: "/images/LGj6z4TDM3zL3Uv8ViTYEB4rUY.png",
-    title: "Япония: Токио / Осака / Киото / Нара / Окинава",
-    teaser: "Токио, Осака, Киото, Нара и Окинава.",
-    full: <p>Скоро — материалы готовятся.</p>,
-    soon: true,
-  },
-  {
     img: "/images/prod-thailand.jpg",
     title: "Таиланд: Бангкок / Пхукет / Панган",
     teaser: "Бангкок, Пхукет и Панган.",
@@ -79,7 +72,7 @@ function GuideCard({ img, title, teaser, full, soon }: Guide) {
   return (
     <div
       data-expand
-      className="group relative flex w-full shrink-0 cursor-pointer flex-col overflow-hidden rounded-[20px] bg-[#f2f2f0] sm:w-[calc((100%-1.5rem)/2)] xl:w-[calc((100%-3rem)/3)]"
+      className="group relative flex w-full shrink-0 cursor-pointer flex-col overflow-hidden rounded-[20px] bg-[#f2f2f0] sm:w-[calc((100%-1.5rem)/2)]"
     >
       <div className="relative">
         <img
@@ -146,8 +139,8 @@ export function Tours() {
         </Reveal>
       </div>
 
-      <Reveal delay={80} className="mx-auto mt-12 max-w-[1200px] px-10">
-        <div data-slider="tours" data-loop="" className="overflow-hidden">
+      <Reveal delay={80} className="mx-auto mt-12 max-w-[860px] px-10">
+        <div data-slider="tours" data-loop="" data-noauto="" className="overflow-hidden">
           <div className="flex items-stretch gap-6">
             {GUIDES.map((g, i) => (
               <GuideCard key={i} {...g} />

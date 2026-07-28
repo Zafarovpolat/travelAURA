@@ -66,6 +66,7 @@ export function AdminEditor() {
     bar.className = "ta-adminbar";
     bar.innerHTML =
       '<span class="dot"></span><span style="margin-right:4px">Редактирование</span>' +
+      '<button data-a="assortment">Ассортимент</button>' +
       '<button data-a="save">Сохранить</button>' +
       '<button class="ghost" data-a="reset">Сбросить</button>';
     document.body.appendChild(bar);
@@ -225,7 +226,9 @@ export function AdminEditor() {
     const onBar = (e: MouseEvent) => {
       const a = (e.target as HTMLElement).getAttribute("data-a");
       if (!a) return;
-      if (a === "save") {
+      if (a === "assortment") {
+        window.dispatchEvent(new Event("ta-open-assortment"));
+      } else if (a === "save") {
         localStorage.setItem(STORE_KEY, JSON.stringify(store));
         setDirty(false);
         toast("Сохранено ✓");

@@ -1,15 +1,7 @@
+"use client";
 /* eslint-disable @next/next/no-img-element */
 import { Reveal } from "./Reveal";
-
-const PHOTOS = [
-  "/images/me-1.jpg",
-  "/images/me-2.jpg",
-  "/images/me-3.jpg",
-  "/images/me-4.jpg",
-  "/images/me-5.jpg",
-  "/images/me-6.jpg",
-  "/images/me-7.jpg",
-];
+import { useAssortment } from "../admin/assortment";
 
 function PhotoCard({ src }: { src: string }) {
   return (
@@ -28,6 +20,7 @@ function PhotoCard({ src }: { src: string }) {
 }
 
 export function Categories() {
+  const { photos } = useAssortment();
   return (
     <section id="about" className="relative bg-white pb-12 pt-28 sm:pb-24">
       {/* decorative travel stamps */}
@@ -75,8 +68,8 @@ export function Categories() {
           className="overflow-hidden"
         >
           <div className="flex items-start gap-6">
-            {PHOTOS.map((src) => (
-              <PhotoCard key={src} src={src} />
+            {photos.map((p) => (
+              <PhotoCard key={p.id} src={p.img} />
             ))}
           </div>
         </div>
@@ -88,9 +81,9 @@ export function Categories() {
           data-dots="cats"
           className="inline-flex items-center gap-2 rounded-full bg-ink/10 px-3 py-2"
         >
-          {PHOTOS.map((_, i) => (
+          {photos.map((p, i) => (
             <span
-              key={i}
+              key={p.id}
               data-dot=""
               className="dot h-2 rounded-full"
               style={{

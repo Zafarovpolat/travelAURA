@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Landing } from "@/components/Landing";
 import { AdminEditor } from "@/components/admin/AdminEditor";
+import { AssortmentPanel } from "@/components/admin/AssortmentPanel";
 
 export const metadata: Metadata = {
   title: "travelAURA — редактор",
@@ -12,6 +13,7 @@ export default function AdminPage() {
     <>
       <Landing admin />
       <AdminEditor />
+      <AssortmentPanel />
     </>
   );
 }

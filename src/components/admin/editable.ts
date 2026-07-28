@@ -22,6 +22,8 @@ export function assignEditIds(): void {
   let i = 0;
   for (const el of nodes) {
     if (el.closest("[data-clone]")) continue;
+    // carousel slides (blocks 2/3/4) are managed by the assortment panel
+    if (el.closest("[data-slider]")) continue;
     if (el.closest(".ta-adminbar") || el.closest(".ta-modal-bg")) continue;
     if (el.hasAttribute("data-countdown") || el.querySelector("[data-countdown]"))
       continue;
@@ -49,6 +51,7 @@ export function assignEditIds(): void {
   document.querySelectorAll("span").forEach((el) => {
     if (el.closest("[data-edit]")) return;
     if (el.closest("[data-clone]") || el.closest(".ta-adminbar")) return;
+    if (el.closest("[data-slider]")) return;
     if (el.hasAttribute("data-countdown") || el.querySelector("[data-countdown]")) return;
     if (el.querySelector("*")) return; // leaf only
     const txt = el.textContent ? el.textContent.trim() : "";

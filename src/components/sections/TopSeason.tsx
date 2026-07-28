@@ -1,22 +1,11 @@
+"use client";
 /* eslint-disable @next/next/no-img-element */
 import { Reveal } from "./Reveal";
+import { useAssortment } from "../admin/assortment";
 
 const ARROW_UP_RIGHT = "/images/BbyPZY09N03enLhkU6HDikyBz0I.svg";
 const ARROW_LEFT = "/images/EuCRBEy3WmP3TOPcFR80q5d18NM.svg";
 const ARROW_RIGHT = "/images/ujDHATQhQaeDKRnUwXqlIRn8.svg";
-
-const SLIDES = [
-  {
-    img: "/images/prod-italy.jpg",
-    title: "Италия: Рим, Флоренция и Венеция",
-    desc: "Практичный гид по Италии: города, маршруты, транспорт, бюджет, язык и идеи для насыщенной поездки",
-  },
-  {
-    img: "/images/prod-thailand.jpg",
-    title: "Таиланд: Бангкок, Пхукет и Панган",
-    desc: "Пляжи, острова, маршруты, транспорт и бюджет для комфортного путешествия по Таиланду",
-  },
-];
 
 function NavArrow({ icon, dir }: { icon: string; dir: "prev" | "next" }) {
   return (
@@ -63,6 +52,7 @@ function Slide({
 }
 
 export function TopSeason() {
+  const { season } = useAssortment();
   return (
     <section
       id="season"
@@ -79,7 +69,7 @@ export function TopSeason() {
         </Reveal>
 
         <Reveal delay={100} className="mt-14 flex items-center justify-center gap-6">
-          {SLIDES.length > 1 && <NavArrow icon={ARROW_LEFT} dir="prev" />}
+          {season.length > 1 && <NavArrow icon={ARROW_LEFT} dir="prev" />}
           <div
             data-slider="season"
             data-loop=""
@@ -87,12 +77,12 @@ export function TopSeason() {
             className="w-full max-w-[680px] overflow-hidden"
           >
             <div className="flex gap-6">
-              {SLIDES.map((s) => (
-                <Slide key={s.title} {...s} />
+              {season.map((s) => (
+                <Slide key={s.id} img={s.img} title={s.title} desc={s.desc} />
               ))}
             </div>
           </div>
-          {SLIDES.length > 1 && <NavArrow icon={ARROW_RIGHT} dir="next" />}
+          {season.length > 1 && <NavArrow icon={ARROW_RIGHT} dir="next" />}
         </Reveal>
       </div>
 

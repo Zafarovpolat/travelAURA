@@ -265,6 +265,32 @@ html.lenis body {
     radial-gradient(20px at 50% 100%, #0000 96%, #000) 50% 100% / 40px 51% repeat-x;
 }
 
+/* =========================================================================
+   Mobile carousels → native CSS scroll-snap (swipe, no JS required)
+   On touch devices CarouselInit is skipped and the slider becomes a horizontal
+   snap-scroller, so photos/cards stay swipeable one-at-a-time even if page JS
+   does not run on the device. Desktop keeps the JS transform carousel.
+   ========================================================================= */
+@media (pointer: coarse) {
+  [data-slider] {
+    overflow-x: auto !important;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  [data-slider]::-webkit-scrollbar {
+    display: none;
+  }
+  [data-slider] > * {
+    transform: none !important;
+  }
+  [data-slider] > * > * {
+    scroll-snap-align: center;
+    opacity: 1 !important;
+  }
+}
+
 /* Pagination dots — hover affordance */
 .dot {
   cursor: pointer;

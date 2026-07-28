@@ -14,7 +14,7 @@ const PHOTOS = [
 function PhotoCard({ src }: { src: string }) {
   return (
     <div
-      className="relative aspect-[5/7] w-[78%] shrink-0 overflow-hidden sm:w-[calc((100%-3rem)/3)]"
+      className="relative aspect-[5/7] w-full shrink-0 overflow-hidden sm:w-[calc((100%-3rem)/3)]"
       style={{ clipPath: "inset(0 round 50% / 36%)" }}
     >
       <img

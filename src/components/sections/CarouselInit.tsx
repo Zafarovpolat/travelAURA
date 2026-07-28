@@ -13,6 +13,16 @@ import { useEffect } from "react";
 export function CarouselInit({ disabled = false }: { disabled?: boolean }) {
   useEffect(() => {
     if (disabled) return;
+    // On touch / mobile devices the carousels use native CSS scroll-snap
+    // (see globals.css) instead of this JS transform engine — so they stay
+    // swipeable even if page scripts don't run on the device.
+    if (
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(pointer: coarse)").matches
+    ) {
+      return;
+    }
     const cleanups: Array<() => void> = [];
 
     document.querySelectorAll<HTMLElement>("[data-slider]").forEach((wrap) => {

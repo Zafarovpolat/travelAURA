@@ -326,14 +326,14 @@ html.lenis body {
   transition: opacity 0.8s cubic-bezier(0.44, 0, 0.13, 1),
     transform 0.8s cubic-bezier(0.44, 0, 0.13, 1);
 }
-html.js [data-reveal]:not([data-shown]) {
-  opacity: 0;
-  transform: translateY(40px);
-}
-@media (prefers-reduced-motion: reduce) {
+/* Hide-until-revealed ONLY on real desktop (mouse) and when motion is allowed.
+   On touch / mobile devices the reveals are ALWAYS visible — never dependent on
+   JS, because JS-driven reveal has proven unreliable on some phones. Desktop
+   keeps the scroll-in animation. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   html.js [data-reveal]:not([data-shown]) {
-    opacity: 1;
-    transform: none;
+    opacity: 0;
+    transform: translateY(40px);
   }
 }
 

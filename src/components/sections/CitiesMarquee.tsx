@@ -2,7 +2,6 @@
 
 const ITEMS = [
   { label: "Италия", flag: "/images/cujjMXLnRh0ubB7Y9PHKkqUqHng.png" },
-  { label: "Япония", flag: "/images/KLKhMlGmofwPpnyHbHOtSBzoEw.svg" },
   { label: "Таиланд", flag: "/images/MRnUANnt1GkkM6MXqkEUxrts.png" },
 ];
 

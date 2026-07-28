@@ -316,6 +316,19 @@ html.lenis body {
 }
 
 /* =========================================================================
+   Mobile reveal fail-safe
+   On touch / mobile devices, scroll-reveal content is ALWAYS visible,
+   independent of JS (hydration, cache, Lenis, scroll events). The !important
+   overrides the component's inline opacity:0, so nothing can stay hidden.
+   ========================================================================= */
+@media (hover: none), (pointer: coarse) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* =========================================================================
    Responsive type scaling (Framer tablet / mobile breakpoints)
    ========================================================================= */
 @media (max-width: 1365.98px) {

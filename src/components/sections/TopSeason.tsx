@@ -67,10 +67,7 @@ export function TopSeason() {
     <section
       id="season"
       className="relative overflow-hidden pb-[200px] pt-24"
-      style={{
-        background:
-          "linear-gradient(to bottom, #ffdfcd 0%, #ffdfcd 66%, #ffffff 92%)",
-      }}
+      style={{ background: "#ffdfcd" }}
     >
       <div className="container-page relative z-10">
         <Reveal className="text-center">

@@ -60,7 +60,7 @@ const GUIDES: Guide[] = [
     ),
   },
   {
-    img: "/images/LGj6z4TDM3zL3Uv8ViTYEB4rUY.png",
+    img: "/images/prod-general.jpg",
     title: "Япония: Токио / Осака / Киото / Нара / Окинава",
     teaser: "Токио, Осака, Киото, Нара и Окинава.",
     full: <p>Скоро — материалы готовятся.</p>,

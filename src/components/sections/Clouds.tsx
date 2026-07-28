@@ -14,7 +14,7 @@ export function CloudStrip({
   tight = false,
 }: {
   flip?: boolean;
-  edge?: number;
+  edge?: number | string;
   tight?: boolean;
 }) {
   const style = flip ? { top: edge } : { bottom: edge };

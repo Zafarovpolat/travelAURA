@@ -71,6 +71,7 @@ export function Categories() {
           data-fade=""
           data-center=""
           data-loop=""
+          data-interval="2600"
           className="overflow-hidden"
         >
           <div className="flex items-start gap-6">

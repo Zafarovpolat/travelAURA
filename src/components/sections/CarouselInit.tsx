@@ -37,6 +37,8 @@ export function CarouselInit({ disabled = false }: { disabled?: boolean }) {
       const center = wrap.hasAttribute("data-center");
       const fade = wrap.hasAttribute("data-fade");
       const auto = !wrap.hasAttribute("data-noauto");
+      const interval =
+        parseInt(wrap.getAttribute("data-interval") || "4200", 10) || 4200;
       const gap = 24;
 
       if (loop) {
@@ -115,7 +117,7 @@ export function CarouselInit({ disabled = false }: { disabled?: boolean }) {
       const start = () => {
         if (!auto) return;
         stop();
-        timer = window.setInterval(() => go(i + 1), 4200);
+        timer = window.setInterval(() => go(i + 1), interval);
       };
       wrap.addEventListener("mouseenter", stop);
       wrap.addEventListener("mouseleave", start);

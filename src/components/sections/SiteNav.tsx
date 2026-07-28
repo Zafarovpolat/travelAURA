@@ -12,7 +12,7 @@ function NavLink({ label, href }: { label: string; href: string }) {
   return (
     <a
       href={href}
-      className="link-underline font-display text-[16px] font-semibold text-white"
+      className="link-underline whitespace-nowrap font-display text-[13px] font-semibold text-white sm:text-[16px]"
     >
       {label}
     </a>
@@ -21,9 +21,9 @@ function NavLink({ label, href }: { label: string; href: string }) {
 
 export function SiteNav() {
   return (
-    <nav className="absolute inset-x-0 top-0 z-50 pt-8">
+    <nav className="absolute inset-x-0 top-0 z-50 pt-6 md:pt-8">
       <div className="container-page">
-        <div className="hidden items-center justify-center gap-8 md:flex">
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 md:gap-8">
           {[...LEFT_LINKS, ...RIGHT_LINKS].map((l) => (
             <NavLink key={l.href} {...l} />
           ))}

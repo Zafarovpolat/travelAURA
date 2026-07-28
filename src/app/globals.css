@@ -316,15 +316,24 @@ html.lenis body {
 }
 
 /* =========================================================================
-   Mobile reveal fail-safe
-   On touch / mobile devices, scroll-reveal content is ALWAYS visible,
-   independent of JS (hydration, cache, Lenis, scroll events). The !important
-   overrides the component's inline opacity:0, so nothing can stay hidden.
+   Scroll-reveal (progressive enhancement)
+   Visible by default → content is NEVER hidden if JS fails to run. When JS is
+   active (html.js is set before first paint) reveals start hidden and animate
+   in once [data-shown] is added by the IntersectionObserver. Works the same on
+   mobile and desktop.
    ========================================================================= */
-@media (hover: none), (pointer: coarse) {
-  [data-reveal] {
-    opacity: 1 !important;
-    transform: none !important;
+[data-reveal] {
+  transition: opacity 0.8s cubic-bezier(0.44, 0, 0.13, 1),
+    transform 0.8s cubic-bezier(0.44, 0, 0.13, 1);
+}
+html.js [data-reveal]:not([data-shown]) {
+  opacity: 0;
+  transform: translateY(40px);
+}
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal]:not([data-shown]) {
+    opacity: 1;
+    transform: none;
   }
 }
 

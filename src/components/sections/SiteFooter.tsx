@@ -3,8 +3,6 @@
 import { useEffect, useRef } from "react";
 import { Reveal } from "./Reveal";
 
-const VIDEO = "/videos/footer.webm";
-
 const DESTS = [
   { label: "Япония", flag: "/images/uecbId5oKZ2rjlROouIcuGPtQ.svg" },
   { label: "Италия", flag: "/images/LSjPcu2bVLOoMazLpkIyd64CGo.png" },
@@ -120,13 +118,17 @@ export function SiteFooter() {
       <video
         ref={bgRef}
         data-parallax="footer"
-        src={VIDEO}
         autoPlay
         loop
         muted
         playsInline
+        preload="auto"
         className="absolute inset-x-0 top-[-15%] h-[130%] w-full select-none object-cover will-change-transform"
-      />
+      >
+        {/* mp4 first for max compatibility (iOS Safari cannot play webm) */}
+        <source src="/videos/footer.mp4" type="video/mp4" />
+        <source src="/videos/footer.webm" type="video/webm" />
+      </video>
       {/* dark overlay over the video */}
       <div className="absolute inset-0 bg-black/30" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/25 to-black/70" />

@@ -66,7 +66,7 @@ export function TopSeason() {
   return (
     <section
       id="season"
-      className="relative overflow-hidden pb-[200px] pt-24"
+      className="relative overflow-hidden pb-[100px] pt-16 sm:pb-[200px] sm:pt-24"
       style={{ background: "#ffdfcd" }}
     >
       <div className="container-page relative z-10">

@@ -14,7 +14,7 @@ const PHOTOS = [
 function PhotoCard({ src }: { src: string }) {
   return (
     <div
-      className="relative aspect-[5/7] w-[calc((100%-3rem)/3)] shrink-0 overflow-hidden"
+      className="relative aspect-[5/7] w-[78%] shrink-0 overflow-hidden sm:w-[calc((100%-3rem)/3)]"
       style={{ clipPath: "inset(0 round 50% / 36%)" }}
     >
       <img
@@ -29,7 +29,7 @@ function PhotoCard({ src }: { src: string }) {
 
 export function Categories() {
   return (
-    <section id="about" className="relative bg-white pb-24 pt-28">
+    <section id="about" className="relative bg-white pb-12 pt-28 sm:pb-24">
       {/* decorative travel stamps */}
       <img
         src="/images/1exwTE2Y0Xf60mnDtG638CmG8I.png"
@@ -82,7 +82,7 @@ export function Categories() {
       </Reveal>
 
       {/* pagination pill (gray) */}
-      <div className="mt-10 flex justify-center">
+      <div className="mt-6 flex justify-center sm:mt-10">
         <div
           data-dots="cats"
           className="inline-flex items-center gap-2 rounded-full bg-ink/10 px-3 py-2"

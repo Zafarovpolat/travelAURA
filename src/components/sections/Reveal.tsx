@@ -10,15 +10,16 @@ type RevealProps = {
 };
 
 /**
- * Framer-style "appear" effect — fades + slides content up when it enters view.
+ * Framer-style scroll-reveal, done as progressive enhancement.
  *
- * Detection is a requestAnimationFrame poll of the element's real bounding rect.
- * This is completely independent of scroll events (which Lenis can swallow on
- * touch devices) and of IntersectionObserver quirks, so it fires reliably on
- * every device. A safety timeout guarantees content is never left invisible,
- * and reduced-motion users get it immediately.
+ * - Content is visible by default (see globals.css) — if JS never runs it is
+ *   NEVER stuck invisible.
+ * - When JS is active (html.js, set before paint) the element starts hidden and
+ *   this effect adds [data-shown] once it enters the viewport → CSS animates it
+ *   in. An IntersectionObserver drives it (reliable on mobile — Lenis is off on
+ *   touch), with an on-mount check and a safety timeout as backstops.
  */
-export function Reveal({ children, className, delay = 0, y = 40 }: RevealProps) {
+export function Reveal({ children, className, delay = 0 }: RevealProps) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [shown, setShown] = useState(false);
 
@@ -26,48 +27,44 @@ export function Reveal({ children, className, delay = 0, y = 40 }: RevealProps) 
     const el = ref.current;
     if (!el) return;
 
-    if (
-      typeof window.matchMedia === "function" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
+    let done = false;
+    let io: IntersectionObserver | null = null;
+    let t = 0;
+    const show = () => {
+      if (done) return;
+      done = true;
       setShown(true);
+      io?.disconnect();
+      window.clearTimeout(t);
+    };
+
+    // already in view on mount → reveal immediately
+    const r = el.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    if (r.top < vh * 0.95 && r.bottom > 0) {
+      show();
       return;
     }
 
-    let done = false;
-    let raf = 0;
-    let timer = 0;
+    if ("IntersectionObserver" in window) {
+      io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) if (e.isIntersecting) show();
+        },
+        { threshold: 0, rootMargin: "0px 0px -8% 0px" },
+      );
+      io.observe(el);
+    } else {
+      show();
+      return;
+    }
 
-    const finish = () => {
-      if (done) return;
-      done = true;
-      cancelAnimationFrame(raf);
-      window.clearTimeout(timer);
-      setShown(true);
-    };
-
-    const vh = () => window.innerHeight || document.documentElement.clientHeight;
-
-    const tick = () => {
-      if (done || !ref.current) return;
-      const r = ref.current.getBoundingClientRect();
-      if (r.top < vh() * 0.9 && r.bottom > 0) {
-        finish();
-        return;
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-
-    // absolute safety net — content is never allowed to stay invisible
-    const coarse =
-      typeof window.matchMedia === "function" &&
-      window.matchMedia("(pointer: coarse)").matches;
-    timer = window.setTimeout(finish, coarse ? 2200 : 6000);
+    // safety net — never leave content hidden if the observer never fires
+    t = window.setTimeout(show, 2600);
 
     return () => {
-      cancelAnimationFrame(raf);
-      window.clearTimeout(timer);
+      io?.disconnect();
+      window.clearTimeout(t);
     };
   }, []);
 
@@ -75,14 +72,9 @@ export function Reveal({ children, className, delay = 0, y = 40 }: RevealProps) 
     <div
       ref={ref}
       data-reveal=""
-      data-reveal-delay={delay}
+      {...(shown ? { "data-shown": "" } : {})}
       className={className}
-      style={{
-        opacity: shown ? 1 : 0,
-        transform: shown ? "translateY(0)" : `translateY(${y}px)`,
-        transition: `opacity 0.8s cubic-bezier(0.44,0,0.13,1) ${delay}ms, transform 0.8s cubic-bezier(0.44,0,0.13,1) ${delay}ms`,
-        willChange: "opacity, transform",
-      }}
+      style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
     </div>

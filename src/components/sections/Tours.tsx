@@ -8,11 +8,26 @@ import {
   addGuide,
   deleteGuide,
   moveGuide,
+  setTimer,
   type Guide,
 } from "../admin/assortment";
-import { T, SlideBar, BadgeToggle, AddSlide } from "../admin/inline";
+import { T, SlideBar, BadgeToggle, AddSlide, TimerEdit } from "../admin/inline";
 
-function GuideCard({ g, i, total, admin }: { g: Guide; i: number; total: number; admin: boolean }) {
+function GuideCard({
+  g,
+  i,
+  total,
+  admin,
+  timerHours,
+  timerMinutes,
+}: {
+  g: Guide;
+  i: number;
+  total: number;
+  admin: boolean;
+  timerHours: number;
+  timerMinutes: number;
+}) {
   return (
     <div
       data-expand
@@ -27,15 +42,33 @@ function GuideCard({ g, i, total, admin }: { g: Guide; i: number; total: number;
         />
         {g.showTimer && (
           <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-ink/85 px-2.5 py-1 text-white shadow-[0_4px_14px_rgba(0,0,0,0.28)] backdrop-blur-sm">
-            <span className="font-display text-[12px] font-bold">−50%</span>
+            <T
+              admin={admin}
+              as="span"
+              className="font-display text-[12px] font-bold"
+              value={g.badgeText}
+              onCommit={(v) => updateGuide(g.id, { badgeText: v })}
+            />
             <span className="font-display text-[12px] font-semibold tabular-nums">
               <DiscountTimer />
             </span>
+            {admin && (
+              <TimerEdit
+                hours={timerHours}
+                minutes={timerMinutes}
+                onApply={(h, m) => setTimer(h, m)}
+              />
+            )}
           </span>
         )}
         {g.showSoon && (
           <span className="t-label absolute bottom-3 left-3 rounded-full bg-ink px-3 py-1 text-white">
-            Скоро
+            <T
+              admin={admin}
+              as="span"
+              value={g.soonLabel}
+              onCommit={(v) => updateGuide(g.id, { soonLabel: v })}
+            />
           </span>
         )}
         {admin && (
@@ -54,8 +87,8 @@ function GuideCard({ g, i, total, admin }: { g: Guide; i: number; total: number;
       <div className="flex flex-1 flex-col p-5">
         {admin && (
           <div className="ta-inl-badges">
-            <BadgeToggle active={g.showSoon} label="Скоро" onToggle={() => updateGuide(g.id, { showSoon: !g.showSoon })} />
-            <BadgeToggle active={g.showTimer} label="−50% + таймер" onToggle={() => updateGuide(g.id, { showTimer: !g.showTimer })} />
+            <BadgeToggle active={g.showSoon} label="Тег «Скоро»" onToggle={() => updateGuide(g.id, { showSoon: !g.showSoon })} />
+            <BadgeToggle active={g.showTimer} label="Скидка + таймер" onToggle={() => updateGuide(g.id, { showTimer: !g.showTimer })} />
           </div>
         )}
         <T
@@ -84,8 +117,20 @@ function GuideCard({ g, i, total, admin }: { g: Guide; i: number; total: number;
           <div className="mt-4 flex items-center justify-between">
             {g.showTimer ? (
               <div className="flex items-baseline gap-1.5">
-                <span className="font-display text-[20px] font-semibold text-ink">50%</span>
-                <span className="font-stack text-[13px] text-gray">скидка</span>
+                <T
+                  admin={admin}
+                  as="span"
+                  className="font-display text-[20px] font-semibold text-ink"
+                  value={g.discount}
+                  onCommit={(v) => updateGuide(g.id, { discount: v })}
+                />
+                <T
+                  admin={admin}
+                  as="span"
+                  className="font-stack text-[13px] text-gray"
+                  value={g.discountWord}
+                  onCommit={(v) => updateGuide(g.id, { discountWord: v })}
+                />
               </div>
             ) : (
               <span />
@@ -104,7 +149,7 @@ function GuideCard({ g, i, total, admin }: { g: Guide; i: number; total: number;
 }
 
 export function Tours({ admin = false }: { admin?: boolean }) {
-  const { guides } = useAssortment();
+  const { guides, timerHours, timerMinutes } = useAssortment();
   return (
     <section id="products" className="relative overflow-hidden bg-white py-24">
       <div className="container-page">
@@ -123,9 +168,23 @@ export function Tours({ admin = false }: { admin?: boolean }) {
         <div data-slider="tours" data-loop="" className="overflow-hidden">
           <div className="flex items-stretch gap-6">
             {guides.map((g, i) => (
-              <GuideCard key={g.id} g={g} i={i} total={guides.length} admin={admin} />
+              <GuideCard
+                key={g.id}
+                g={g}
+                i={i}
+                total={guides.length}
+                admin={admin}
+                timerHours={timerHours}
+                timerMinutes={timerMinutes}
+              />
             ))}
-            {admin && <AddSlide label="Добавить товар" onAdd={addGuide} />}
+            {admin && (
+              <AddSlide
+                label="Добавить товар"
+                onAdd={addGuide}
+                className="w-full shrink-0 self-stretch sm:w-[calc((100%-1.5rem)/2)] xl:w-[calc((100%-3rem)/3)]"
+              />
+            )}
           </div>
         </div>
       </Reveal>

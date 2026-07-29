@@ -79,8 +79,17 @@ export function AdminEditor() {
       .ta-inl-badges{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; }
       .ta-inl-badge{ border:1px solid #bbb; background:#fff; color:#555; border-radius:999px; padding:3px 10px; font:600 11px Inter; cursor:pointer; }
       .ta-inl-badge.on{ background:#1a1a17; color:#fff; border-color:#1a1a17; }
-      .ta-inl-add{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; min-height:220px; width:300px; max-width:80vw; flex:0 0 auto; border:2px dashed #9ac7f0; background:#f5faff; color:#0077cc; border-radius:18px; font:700 14px Inter; cursor:pointer; }
+      .ta-inl-add{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; border:2px dashed #9ac7f0; background:#f5faff; color:#0077cc; border-radius:18px; font:700 14px Inter; cursor:pointer; }
       .ta-inl-add>span{ font-size:30px; line-height:1; }
+      .ta-inl-add-default{ min-height:220px; width:300px; max-width:80vw; flex:0 0 auto; }
+      .ta-inl-add-country{ min-height:120px; padding:0 34px; flex:0 0 auto; background:rgba(255,255,255,.1); color:#fff; border-color:rgba(255,255,255,.5); }
+      /* discount timer duration editor */
+      .ta-inl-timerwrap{ position:relative; display:inline-flex; }
+      .ta-inl-timerbtn{ margin-left:4px; border:0; background:rgba(255,255,255,.25); color:#fff; border-radius:5px; width:18px; height:18px; font-size:11px; cursor:pointer; padding:0; line-height:1; }
+      .ta-inl-pop-timer{ top:26px; left:0; right:auto; width:200px; }
+      .ta-inl-hm{ display:flex; gap:8px; }
+      .ta-inl-hm label{ flex:1; font:600 11px Inter; color:#444; display:flex; flex-direction:column; gap:3px; }
+      .ta-inl-hm input{ width:100%; padding:6px 7px; border:1px solid #ccc; border-radius:6px; font:13px Inter; color:#111; }
     `;
     document.head.appendChild(style);
     document.documentElement.setAttribute("data-admin", "1");

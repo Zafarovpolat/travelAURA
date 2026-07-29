@@ -1,12 +1,12 @@
 "use client";
 
 /**
- * Assortment (products / slides) data layer for blocks 2, 3 and 4.
+ * Assortment (products / slides) data layer for the editable blocks.
  *
- * The three carousels render from this store instead of hard-coded arrays, so
- * the /admin panel can add / delete / edit slides. Data is persisted per-browser
- * in localStorage (key `ta_admin_assortment`) — the same model as the inline
- * content editor. Publishing to all visitors is a later backend step.
+ * The carousels render from this store instead of hard-coded arrays, so the
+ * /admin surface can add / delete / edit slides inline. Data is persisted
+ * per-browser in localStorage (key `ta_admin_assortment`). Publishing to all
+ * visitors is a later backend step.
  *
  * SSR + first client render always use DEFAULTS (so hydration matches); the
  * saved assortment is loaded in an effect right after mount.
@@ -24,15 +24,24 @@ export type Guide = {
   title: string;
   teaser: string; // short description on the card
   full: string; // full description (multiline); shown when expanded
-  showSoon: boolean; // "Скоро" tag
-  showTimer: boolean; // "−50%" + countdown badge
+  showSoon: boolean; // show the "Скоро" tag
+  showTimer: boolean; // show the "−50% + countdown" badge
+  soonLabel: string; // editable text of the "Скоро" tag
+  badgeText: string; // editable text of the discount badge ("−50%")
+  discount: string; // editable percent in the card footer ("50%")
+  discountWord: string; // editable word after the percent ("скидка")
 };
 export type SeasonSlide = { id: string; img: string; title: string; desc: string };
+/** Country in the black marquee ribbon. */
+export type Country = { id: string; label: string; img: string };
 
 export type Assortment = {
   photos: Photo[];
   guides: Guide[];
   season: SeasonSlide[];
+  countries: Country[];
+  timerHours: number; // discount countdown duration
+  timerMinutes: number;
 };
 
 const ITALY_FULL = `База перед поездкой:
@@ -52,6 +61,14 @@ const ITALY_FULL = `База перед поездкой:
 Шоппинг и что привезти
 Полезные приложения
 Безопасность и типичные разводы туристов`;
+
+/** Default badge/discount texts for a card. */
+const GUIDE_LABELS = {
+  soonLabel: "Скоро",
+  badgeText: "−50%",
+  discount: "50%",
+  discountWord: "скидка",
+};
 
 export const DEFAULT_ASSORTMENT: Assortment = {
   photos: [
@@ -73,6 +90,7 @@ export const DEFAULT_ASSORTMENT: Assortment = {
       full: ITALY_FULL,
       showSoon: false,
       showTimer: true,
+      ...GUIDE_LABELS,
     },
     {
       id: "g-japan",
@@ -82,6 +100,7 @@ export const DEFAULT_ASSORTMENT: Assortment = {
       full: "Скоро — материалы готовятся.",
       showSoon: true,
       showTimer: true,
+      ...GUIDE_LABELS,
     },
     {
       id: "g-thailand",
@@ -91,6 +110,7 @@ export const DEFAULT_ASSORTMENT: Assortment = {
       full: "Скоро — материалы готовятся.",
       showSoon: true,
       showTimer: true,
+      ...GUIDE_LABELS,
     },
   ],
   season: [
@@ -107,10 +127,33 @@ export const DEFAULT_ASSORTMENT: Assortment = {
       desc: "Пляжи, острова, маршруты, транспорт и бюджет для комфортного путешествия по Таиланду",
     },
   ],
+  countries: [
+    { id: "c-italy", label: "Италия", img: "/images/cujjMXLnRh0ubB7Y9PHKkqUqHng.png" },
+    { id: "c-thailand", label: "Таиланд", img: "/images/MRnUANnt1GkkM6MXqkEUxrts.png" },
+  ],
+  timerHours: 2,
+  timerMinutes: 38,
 };
 
 function clone(a: Assortment): Assortment {
   return JSON.parse(JSON.stringify(a));
+}
+
+/** Fill in fields added after a visitor already saved data. */
+function normGuide(g: Partial<Guide>, i: number): Guide {
+  return {
+    id: g.id || newId("g"),
+    img: g.img || PLACEHOLDER,
+    title: g.title ?? "",
+    teaser: g.teaser ?? "",
+    full: g.full ?? "",
+    showSoon: !!g.showSoon,
+    showTimer: g.showTimer !== false,
+    soonLabel: g.soonLabel || GUIDE_LABELS.soonLabel,
+    badgeText: g.badgeText || GUIDE_LABELS.badgeText,
+    discount: g.discount || GUIDE_LABELS.discount,
+    discountWord: g.discountWord || GUIDE_LABELS.discountWord,
+  };
 }
 
 /** Merge a parsed value with defaults so missing keys never break rendering. */
@@ -120,8 +163,11 @@ function normalize(raw: unknown): Assortment {
   const r = raw as Partial<Assortment>;
   return {
     photos: Array.isArray(r.photos) ? (r.photos as Photo[]) : d.photos,
-    guides: Array.isArray(r.guides) ? (r.guides as Guide[]) : d.guides,
+    guides: Array.isArray(r.guides) ? r.guides.map(normGuide) : d.guides,
     season: Array.isArray(r.season) ? (r.season as SeasonSlide[]) : d.season,
+    countries: Array.isArray(r.countries) ? (r.countries as Country[]) : d.countries,
+    timerHours: typeof r.timerHours === "number" ? r.timerHours : d.timerHours,
+    timerMinutes: typeof r.timerMinutes === "number" ? r.timerMinutes : d.timerMinutes,
   };
 }
 
@@ -154,17 +200,16 @@ export function setAssortment(next: Assortment): void {
 /** Persist the working assortment to localStorage. */
 export function saveAssortment(): void {
   if (typeof localStorage === "undefined") return;
-  try {
-    localStorage.setItem(ASSORTMENT_KEY, JSON.stringify(getAssortment()));
-  } catch (e) {
-    // Most likely the quota was exceeded by large image data URLs.
-    throw e;
-  }
+  localStorage.setItem(ASSORTMENT_KEY, JSON.stringify(getAssortment()));
 }
 
 /** Drop overrides and go back to the default assortment. */
 export function resetAssortment(): void {
-  if (typeof localStorage !== "undefined") localStorage.removeItem(ASSORTMENT_KEY);
+  if (typeof localStorage !== "undefined") {
+    localStorage.removeItem(ASSORTMENT_KEY);
+    localStorage.removeItem("ta_discount_end");
+    localStorage.removeItem("ta_discount_dur");
+  }
   current = clone(DEFAULT_ASSORTMENT);
   if (typeof window !== "undefined")
     window.dispatchEvent(new Event(ASSORTMENT_EVENT));
@@ -191,7 +236,7 @@ function reorder<T extends { id: string }>(arr: T[], id: string, dir: number): T
   return c;
 }
 
-// ---- photos (block 2) ----
+// ---- photos (block "О себе") ----
 export function updatePhoto(id: string, img: string) {
   const a = getAssortment();
   setAssortment({ ...a, photos: a.photos.map((p) => (p.id === id ? { ...p, img } : p)) });
@@ -209,7 +254,7 @@ export function movePhoto(id: string, dir: number) {
   setAssortment({ ...a, photos: reorder(a.photos, id, dir) });
 }
 
-// ---- guides (block 3) ----
+// ---- guides (catalog cards) ----
 export function updateGuide(id: string, patch: Partial<Guide>) {
   const a = getAssortment();
   setAssortment({ ...a, guides: a.guides.map((g) => (g.id === id ? { ...g, ...patch } : g)) });
@@ -220,7 +265,16 @@ export function addGuide() {
     ...a,
     guides: [
       ...a.guides,
-      { id: newId("g"), img: PLACEHOLDER, title: "Новый товар", teaser: "Краткое описание", full: "Полное описание", showSoon: false, showTimer: true },
+      {
+        id: newId("g"),
+        img: PLACEHOLDER,
+        title: "Новый товар",
+        teaser: "Краткое описание",
+        full: "Полное описание",
+        showSoon: false,
+        showTimer: true,
+        ...GUIDE_LABELS,
+      },
     ],
   });
 }
@@ -233,7 +287,7 @@ export function moveGuide(id: string, dir: number) {
   setAssortment({ ...a, guides: reorder(a.guides, id, dir) });
 }
 
-// ---- season (block 4) ----
+// ---- season slides ----
 export function updateSeason(id: string, patch: Partial<SeasonSlide>) {
   const a = getAssortment();
   setAssortment({ ...a, season: a.season.map((s) => (s.id === id ? { ...s, ...patch } : s)) });
@@ -251,9 +305,41 @@ export function moveSeason(id: string, dir: number) {
   setAssortment({ ...a, season: reorder(a.season, id, dir) });
 }
 
+// ---- countries (black ribbon) ----
+export function updateCountry(id: string, patch: Partial<Country>) {
+  const a = getAssortment();
+  setAssortment({ ...a, countries: a.countries.map((c) => (c.id === id ? { ...c, ...patch } : c)) });
+}
+export function addCountry() {
+  const a = getAssortment();
+  setAssortment({ ...a, countries: [...a.countries, { id: newId("c"), label: "Страна", img: PLACEHOLDER }] });
+}
+export function deleteCountry(id: string) {
+  const a = getAssortment();
+  setAssortment({ ...a, countries: a.countries.filter((c) => c.id !== id) });
+}
+export function moveCountry(id: string, dir: number) {
+  const a = getAssortment();
+  setAssortment({ ...a, countries: reorder(a.countries, id, dir) });
+}
+
+// ---- discount timer duration ----
+export function setTimer(hours: number, minutes: number) {
+  const a = getAssortment();
+  const h = Math.max(0, Math.min(99, Math.floor(hours || 0)));
+  const m = Math.max(0, Math.min(59, Math.floor(minutes || 0)));
+  setAssortment({ ...a, timerHours: h, timerMinutes: m });
+  // restart the countdown so the new duration takes effect immediately
+  if (typeof localStorage !== "undefined") {
+    localStorage.removeItem("ta_discount_end");
+    localStorage.removeItem("ta_discount_dur");
+  }
+  if (typeof window !== "undefined") window.dispatchEvent(new Event("ta-timer-change"));
+}
+
 /**
  * Downscale an uploaded image file to a compact data URL so it fits in
- * localStorage. Returns a JPEG/WEBP data URL (max ~1000px on the long edge).
+ * localStorage. Returns a WEBP/JPEG data URL (max ~1000px on the long edge).
  */
 export function fileToDataURL(file: File, max = 1000): Promise<string> {
   return new Promise((resolve, reject) => {

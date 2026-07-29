@@ -99,7 +99,13 @@ export function TopSeason({ admin = false }: { admin?: boolean }) {
                   )}
                 </article>
               ))}
-              {admin && <AddSlide label="Добавить слайд" onAdd={addSeason} />}
+              {admin && (
+                <AddSlide
+                  label="Добавить слайд"
+                  onAdd={addSeason}
+                  className="min-h-[260px] w-full shrink-0 self-stretch"
+                />
+              )}
             </div>
           </div>
           {season.length > 1 && <NavArrow icon={ARROW_RIGHT} dir="next" />}

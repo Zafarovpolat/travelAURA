@@ -79,7 +79,13 @@ export function Categories({ admin = false }: { admin?: boolean }) {
                 )}
               </div>
             ))}
-            {admin && <AddSlide label="Добавить фото" onAdd={addPhoto} />}
+            {admin && (
+              <AddSlide
+                label="Добавить фото"
+                onAdd={addPhoto}
+                className="aspect-[5/7] w-full shrink-0 sm:w-[calc((100%-3rem)/3)]"
+              />
+            )}
           </div>
         </div>
       </Reveal>

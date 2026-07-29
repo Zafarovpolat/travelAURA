@@ -151,11 +151,85 @@ export function BadgeToggle({ active, label, onToggle }: { active: boolean; labe
   );
 }
 
-export function AddSlide({ label, onAdd }: { label: string; onAdd: () => void }) {
+/** "+ Add" tile. `className` should mirror the sizing of a real slide so the
+ *  tile is exactly as tall/wide as the slides next to it. */
+export function AddSlide({
+  label,
+  onAdd,
+  className,
+}: {
+  label: string;
+  onAdd: () => void;
+  className?: string;
+}) {
   return (
-    <button type="button" className="ta-inl-add" data-ta-inline onClick={(e) => { e.stopPropagation(); onAdd(); }}>
-      <span>＋</span>
+    <button
+      type="button"
+      className={"ta-inl-add " + (className || "ta-inl-add-default")}
+      data-ta-inline
+      onClick={(e) => {
+        e.stopPropagation();
+        onAdd();
+      }}
+    >
+      <span>+</span>
       {label}
     </button>
+  );
+}
+
+/** Click the countdown in admin → set the discount duration (hours / minutes). */
+export function TimerEdit({ hours, minutes, onApply }: { hours: number; minutes: number; onApply: (h: number, m: number) => void }) {
+  const [open, setOpen] = useState(false);
+  const [h, setH] = useState(String(hours));
+  const [m, setM] = useState(String(minutes));
+  const stop = (e: any) => e.stopPropagation();
+  return (
+    <span className="ta-inl-timerwrap" data-ta-inline onClick={stop}>
+      <button
+        type="button"
+        className="ta-inl-timerbtn"
+        title="Изменить время скидки"
+        onClick={(e) => {
+          stop(e);
+          setH(String(hours));
+          setM(String(minutes));
+          setOpen(true);
+        }}
+      >
+        ✎
+      </button>
+      {open && (
+        <span className="ta-inl-pop ta-inl-pop-timer" onClick={stop}>
+          <b style={{ font: "600 12px Inter", color: "#111" }}>Время скидки</b>
+          <span className="ta-inl-hm">
+            <label>
+              часов
+              <input type="number" min={0} max={99} value={h} onChange={(e) => setH(e.target.value)} />
+            </label>
+            <label>
+              минут
+              <input type="number" min={0} max={59} value={m} onChange={(e) => setM(e.target.value)} />
+            </label>
+          </span>
+          <span className="ta-inl-poprow">
+            <button type="button" onClick={(e) => { stop(e); setOpen(false); }}>
+              Отмена
+            </button>
+            <button
+              type="button"
+              className="ta-inl-ok"
+              onClick={(e) => {
+                stop(e);
+                onApply(Number(h), Number(m));
+                setOpen(false);
+              }}
+            >
+              Применить
+            </button>
+          </span>
+        </span>
+      )}
+    </span>
   );
 }

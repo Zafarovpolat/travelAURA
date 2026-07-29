@@ -29,7 +29,7 @@ export function Landing({ admin = false }: { admin?: boolean }) {
         <Hero />
         <Categories admin={admin} />
         <Tours admin={admin} />
-        <CitiesMarquee />
+        <CitiesMarquee admin={admin} />
         <TopSeason admin={admin} />
       </main>
       <SiteFooter />

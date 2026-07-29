@@ -2,9 +2,17 @@
 /* eslint-disable @next/next/no-img-element */
 import { Reveal } from "./Reveal";
 import { DiscountTimer } from "./DiscountTimer";
-import { useAssortment, type Guide } from "../admin/assortment";
+import {
+  useAssortment,
+  updateGuide,
+  addGuide,
+  deleteGuide,
+  moveGuide,
+  type Guide,
+} from "../admin/assortment";
+import { T, SlideBar, BadgeToggle, AddSlide } from "../admin/inline";
 
-function GuideCard({ img, title, teaser, full, showSoon, showTimer }: Guide) {
+function GuideCard({ g, i, total, admin }: { g: Guide; i: number; total: number; admin: boolean }) {
   return (
     <div
       data-expand
@@ -12,12 +20,12 @@ function GuideCard({ img, title, teaser, full, showSoon, showTimer }: Guide) {
     >
       <div className="relative">
         <img
-          src={img}
-          alt={title}
+          src={g.img}
+          alt={g.title}
           className="aspect-square w-full select-none object-cover"
           draggable={false}
         />
-        {showTimer && (
+        {g.showTimer && (
           <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-ink/85 px-2.5 py-1 text-white shadow-[0_4px_14px_rgba(0,0,0,0.28)] backdrop-blur-sm">
             <span className="font-display text-[12px] font-bold">−50%</span>
             <span className="font-display text-[12px] font-semibold tabular-nums">
@@ -25,27 +33,56 @@ function GuideCard({ img, title, teaser, full, showSoon, showTimer }: Guide) {
             </span>
           </span>
         )}
-        {showSoon && (
+        {g.showSoon && (
           <span className="t-label absolute bottom-3 left-3 rounded-full bg-ink px-3 py-1 text-white">
             Скоро
           </span>
         )}
+        {admin && (
+          <SlideBar
+            img={g.img}
+            onImg={(v) => updateGuide(g.id, { img: v })}
+            onUp={() => moveGuide(g.id, -1)}
+            onDown={() => moveGuide(g.id, 1)}
+            onDelete={() => deleteGuide(g.id)}
+            canUp={i > 0}
+            canDown={i < total - 1}
+          />
+        )}
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-[18px] font-semibold leading-tight text-ink">
-          {title}
-        </h3>
-        <p className="exp-short mt-2 font-stack text-[14px] leading-[1.4] text-gray">
-          {teaser}
-        </p>
-        <div className="exp-full mt-2 whitespace-pre-line font-stack text-[13.5px] leading-[1.45] text-gray">
-          {full}
-        </div>
+        {admin && (
+          <div className="ta-inl-badges">
+            <BadgeToggle active={g.showSoon} label="Скоро" onToggle={() => updateGuide(g.id, { showSoon: !g.showSoon })} />
+            <BadgeToggle active={g.showTimer} label="−50% + таймер" onToggle={() => updateGuide(g.id, { showTimer: !g.showTimer })} />
+          </div>
+        )}
+        <T
+          admin={admin}
+          as="h3"
+          className="font-display text-[18px] font-semibold leading-tight text-ink"
+          value={g.title}
+          onCommit={(v) => updateGuide(g.id, { title: v })}
+        />
+        <T
+          admin={admin}
+          as="p"
+          className="exp-short mt-2 font-stack text-[14px] leading-[1.4] text-gray"
+          value={g.teaser}
+          onCommit={(v) => updateGuide(g.id, { teaser: v })}
+        />
+        <T
+          admin={admin}
+          as="div"
+          className="exp-full mt-2 whitespace-pre-line font-stack text-[13.5px] leading-[1.45] text-gray"
+          value={g.full}
+          onCommit={(v) => updateGuide(g.id, { full: v })}
+        />
         <div className="mt-auto pt-5">
           <div className="border-t border-dashed border-ink/20" />
           <div className="mt-4 flex items-center justify-between">
-            {showTimer ? (
+            {g.showTimer ? (
               <div className="flex items-baseline gap-1.5">
                 <span className="font-display text-[20px] font-semibold text-ink">50%</span>
                 <span className="font-stack text-[13px] text-gray">скидка</span>
@@ -66,7 +103,7 @@ function GuideCard({ img, title, teaser, full, showSoon, showTimer }: Guide) {
   );
 }
 
-export function Tours() {
+export function Tours({ admin = false }: { admin?: boolean }) {
   const { guides } = useAssortment();
   return (
     <section id="products" className="relative overflow-hidden bg-white py-24">
@@ -85,18 +122,10 @@ export function Tours() {
       <Reveal delay={80} className="mx-auto mt-12 max-w-[1200px] px-10">
         <div data-slider="tours" data-loop="" className="overflow-hidden">
           <div className="flex items-stretch gap-6">
-            {guides.map((g) => (
-              <GuideCard
-                key={g.id}
-                id={g.id}
-                img={g.img}
-                title={g.title}
-                teaser={g.teaser}
-                full={g.full}
-                showSoon={g.showSoon}
-                showTimer={g.showTimer}
-              />
+            {guides.map((g, i) => (
+              <GuideCard key={g.id} g={g} i={i} total={guides.length} admin={admin} />
             ))}
+            {admin && <AddSlide label="Добавить товар" onAdd={addGuide} />}
           </div>
         </div>
       </Reveal>

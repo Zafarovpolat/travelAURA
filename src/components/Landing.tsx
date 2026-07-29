@@ -27,10 +27,10 @@ export function Landing({ admin = false }: { admin?: boolean }) {
       <SiteNav />
       <main>
         <Hero />
-        <Categories />
-        <Tours />
+        <Categories admin={admin} />
+        <Tours admin={admin} />
         <CitiesMarquee />
-        <TopSeason />
+        <TopSeason admin={admin} />
       </main>
       <SiteFooter />
     </>

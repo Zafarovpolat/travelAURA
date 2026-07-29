@@ -1,7 +1,14 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 import { Reveal } from "./Reveal";
-import { useAssortment } from "../admin/assortment";
+import {
+  useAssortment,
+  updateSeason,
+  addSeason,
+  deleteSeason,
+  moveSeason,
+} from "../admin/assortment";
+import { T, SlideBar, AddSlide } from "../admin/inline";
 
 const ARROW_UP_RIGHT = "/images/BbyPZY09N03enLhkU6HDikyBz0I.svg";
 const ARROW_LEFT = "/images/EuCRBEy3WmP3TOPcFR80q5d18NM.svg";
@@ -20,38 +27,7 @@ function NavArrow({ icon, dir }: { icon: string; dir: "prev" | "next" }) {
   );
 }
 
-function Slide({
-  img,
-  title,
-  desc,
-}: {
-  img: string;
-  title: string;
-  desc: string;
-}) {
-  return (
-    <article className="flex w-full shrink-0 flex-col overflow-hidden rounded-[28px] bg-white p-3 sm:flex-row">
-      <img
-        src={img}
-        alt={title}
-        className="h-56 w-full rounded-[20px] object-cover sm:h-auto sm:w-[46%]"
-        draggable={false}
-      />
-      <div className="flex flex-1 flex-col p-6">
-        <h3 className="t-h3 text-ink">{title}</h3>
-        <p className="t-body mb-6 mt-3 text-gray">{desc}</p>
-        <button className="mt-auto flex w-fit items-center gap-3 rounded-full bg-ink py-1.5 pl-6 pr-1.5 text-white transition-opacity hover:opacity-90">
-          <span className="font-display text-[16px] font-medium">Подробнее</span>
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white">
-            <img src={ARROW_UP_RIGHT} alt="" className="h-3.5 w-3.5" />
-          </span>
-        </button>
-      </div>
-    </article>
-  );
-}
-
-export function TopSeason() {
+export function TopSeason({ admin = false }: { admin?: boolean }) {
   const { season } = useAssortment();
   return (
     <section
@@ -77,9 +53,53 @@ export function TopSeason() {
             className="w-full max-w-[680px] overflow-hidden"
           >
             <div className="flex gap-6">
-              {season.map((s) => (
-                <Slide key={s.id} img={s.img} title={s.title} desc={s.desc} />
+              {season.map((s, i) => (
+                <article
+                  key={s.id}
+                  className="relative flex w-full shrink-0 flex-col overflow-hidden rounded-[28px] bg-white p-3 sm:flex-row"
+                >
+                  <img
+                    src={s.img}
+                    alt={s.title}
+                    className="h-56 w-full rounded-[20px] object-cover sm:h-auto sm:w-[46%]"
+                    draggable={false}
+                  />
+                  <div className="flex flex-1 flex-col p-6">
+                    <T
+                      admin={admin}
+                      as="h3"
+                      className="t-h3 text-ink"
+                      value={s.title}
+                      onCommit={(v) => updateSeason(s.id, { title: v })}
+                    />
+                    <T
+                      admin={admin}
+                      as="p"
+                      className="t-body mb-6 mt-3 text-gray"
+                      value={s.desc}
+                      onCommit={(v) => updateSeason(s.id, { desc: v })}
+                    />
+                    <button className="mt-auto flex w-fit items-center gap-3 rounded-full bg-ink py-1.5 pl-6 pr-1.5 text-white transition-opacity hover:opacity-90">
+                      <span className="font-display text-[16px] font-medium">Подробнее</span>
+                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white">
+                        <img src={ARROW_UP_RIGHT} alt="" className="h-3.5 w-3.5" />
+                      </span>
+                    </button>
+                  </div>
+                  {admin && (
+                    <SlideBar
+                      img={s.img}
+                      onImg={(v) => updateSeason(s.id, { img: v })}
+                      onUp={() => moveSeason(s.id, -1)}
+                      onDown={() => moveSeason(s.id, 1)}
+                      onDelete={() => deleteSeason(s.id)}
+                      canUp={i > 0}
+                      canDown={i < season.length - 1}
+                    />
+                  )}
+                </article>
               ))}
+              {admin && <AddSlide label="Добавить слайд" onAdd={addSeason} />}
             </div>
           </div>
           {season.length > 1 && <NavArrow icon={ARROW_RIGHT} dir="next" />}

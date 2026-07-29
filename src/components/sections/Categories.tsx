@@ -1,25 +1,10 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 import { Reveal } from "./Reveal";
-import { useAssortment } from "../admin/assortment";
+import { useAssortment, updatePhoto, addPhoto, deletePhoto, movePhoto } from "../admin/assortment";
+import { SlideBar, AddSlide } from "../admin/inline";
 
-function PhotoCard({ src }: { src: string }) {
-  return (
-    <div
-      className="relative aspect-[5/7] w-full shrink-0 overflow-hidden sm:w-[calc((100%-3rem)/3)]"
-      style={{ clipPath: "inset(0 round 50% / 36%)" }}
-    >
-      <img
-        src={src}
-        alt="Соло путешествие"
-        className="h-full w-full select-none object-cover"
-        draggable={false}
-      />
-    </div>
-  );
-}
-
-export function Categories() {
+export function Categories({ admin = false }: { admin?: boolean }) {
   const { photos } = useAssortment();
   return (
     <section id="about" className="relative bg-white pb-12 pt-28 sm:pb-24">
@@ -68,9 +53,33 @@ export function Categories() {
           className="overflow-hidden"
         >
           <div className="flex items-start gap-6">
-            {photos.map((p) => (
-              <PhotoCard key={p.id} src={p.img} />
+            {photos.map((p, i) => (
+              <div
+                key={p.id}
+                className="relative aspect-[5/7] w-full shrink-0 sm:w-[calc((100%-3rem)/3)]"
+              >
+                <div className="h-full w-full overflow-hidden" style={{ clipPath: "inset(0 round 50% / 36%)" }}>
+                  <img
+                    src={p.img}
+                    alt="Соло путешествие"
+                    className="h-full w-full select-none object-cover"
+                    draggable={false}
+                  />
+                </div>
+                {admin && (
+                  <SlideBar
+                    img={p.img}
+                    onImg={(v) => updatePhoto(p.id, v)}
+                    onUp={() => movePhoto(p.id, -1)}
+                    onDown={() => movePhoto(p.id, 1)}
+                    onDelete={() => deletePhoto(p.id)}
+                    canUp={i > 0}
+                    canDown={i < photos.length - 1}
+                  />
+                )}
+              </div>
             ))}
+            {admin && <AddSlide label="Добавить фото" onAdd={addPhoto} />}
           </div>
         </div>
       </Reveal>

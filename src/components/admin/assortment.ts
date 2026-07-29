@@ -174,6 +174,83 @@ export function newId(prefix: string): string {
   return prefix + "-" + Math.random().toString(36).slice(2, 9);
 }
 
+/** Neutral grey "add your photo" placeholder used for new slides. */
+export const PLACEHOLDER =
+  "data:image/svg+xml;utf8," +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><rect width="100%" height="100%" fill="#e6e6e3"/><text x="50%" y="50%" font-family="sans-serif" font-size="26" fill="#9a9a97" text-anchor="middle" dominant-baseline="middle">Фото</text></svg>',
+  );
+
+function reorder<T extends { id: string }>(arr: T[], id: string, dir: number): T[] {
+  const i = arr.findIndex((x) => x.id === id);
+  const j = i + dir;
+  if (i < 0 || j < 0 || j >= arr.length) return arr;
+  const c = arr.slice();
+  const [it] = c.splice(i, 1);
+  c.splice(j, 0, it);
+  return c;
+}
+
+// ---- photos (block 2) ----
+export function updatePhoto(id: string, img: string) {
+  const a = getAssortment();
+  setAssortment({ ...a, photos: a.photos.map((p) => (p.id === id ? { ...p, img } : p)) });
+}
+export function addPhoto() {
+  const a = getAssortment();
+  setAssortment({ ...a, photos: [...a.photos, { id: newId("p"), img: PLACEHOLDER }] });
+}
+export function deletePhoto(id: string) {
+  const a = getAssortment();
+  setAssortment({ ...a, photos: a.photos.filter((p) => p.id !== id) });
+}
+export function movePhoto(id: string, dir: number) {
+  const a = getAssortment();
+  setAssortment({ ...a, photos: reorder(a.photos, id, dir) });
+}
+
+// ---- guides (block 3) ----
+export function updateGuide(id: string, patch: Partial<Guide>) {
+  const a = getAssortment();
+  setAssortment({ ...a, guides: a.guides.map((g) => (g.id === id ? { ...g, ...patch } : g)) });
+}
+export function addGuide() {
+  const a = getAssortment();
+  setAssortment({
+    ...a,
+    guides: [
+      ...a.guides,
+      { id: newId("g"), img: PLACEHOLDER, title: "Новый товар", teaser: "Краткое описание", full: "Полное описание", showSoon: false, showTimer: true },
+    ],
+  });
+}
+export function deleteGuide(id: string) {
+  const a = getAssortment();
+  setAssortment({ ...a, guides: a.guides.filter((g) => g.id !== id) });
+}
+export function moveGuide(id: string, dir: number) {
+  const a = getAssortment();
+  setAssortment({ ...a, guides: reorder(a.guides, id, dir) });
+}
+
+// ---- season (block 4) ----
+export function updateSeason(id: string, patch: Partial<SeasonSlide>) {
+  const a = getAssortment();
+  setAssortment({ ...a, season: a.season.map((s) => (s.id === id ? { ...s, ...patch } : s)) });
+}
+export function addSeason() {
+  const a = getAssortment();
+  setAssortment({ ...a, season: [...a.season, { id: newId("s"), img: PLACEHOLDER, title: "Новый слайд", desc: "Описание" }] });
+}
+export function deleteSeason(id: string) {
+  const a = getAssortment();
+  setAssortment({ ...a, season: a.season.filter((s) => s.id !== id) });
+}
+export function moveSeason(id: string, dir: number) {
+  const a = getAssortment();
+  setAssortment({ ...a, season: reorder(a.season, id, dir) });
+}
+
 /**
  * Downscale an uploaded image file to a compact data URL so it fits in
  * localStorage. Returns a JPEG/WEBP data URL (max ~1000px on the long edge).
